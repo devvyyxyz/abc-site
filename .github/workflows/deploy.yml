@@ -9,11 +9,32 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Prepare docs and fetch Modrinth org projects
+        env:
+          MODRINTH_API_TOKEN: ${{ secrets.MODRINTH_API_TOKEN }}
+        run: |
+          # ensure docs directory exists and copy top-level site files into docs if present
+          mkdir -p docs
+          cp -R index.html css js 404.html README.md docs/ 2>/dev/null || true
+          # copy repository assets into docs so Pages includes them
+          if [ -d assets ]; then mkdir -p docs/assets && cp -R assets/* docs/assets/ || true; fi
+
+          # create data folder
+          mkdir -p docs/data
+
+          # Fetch organization projects from Modrinth using repository secret (if available)
+          if [ -n "$MODRINTH_API_TOKEN" ]; then
+            echo "Fetching projects for organization id CiTVkRcY from Modrinth..."
+            curl -sS -H "Authorization: Bearer ${MODRINTH_API_TOKEN}" "https://api.modrinth.com/v2/organization/CiTVkRcY/projects" -o docs/data/projects.json || echo '[]' > docs/data/projects.json
+          else
+            echo "No MODRINTH_API_TOKEN set; writing empty projects.json"
+            echo '[]' > docs/data/projects.json
+          fi
       - name: Setup Pages
         uses: actions/configure-pages@v3
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
-          path: ./
+          path: ./docs
       - name: Deploy to Pages
         uses: actions/deploy-pages@v1
