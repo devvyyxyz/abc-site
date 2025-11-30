@@ -1,0 +1,26 @@
+:root{
+  --bg: #f7fafc; /* light page background */
+  --card: #ffffff; /* card background */
+  --muted: #334155; /* text muted / body */
+  --muted-2: #64748b;
+  --accent: #00b37e; /* Modrinth-like green */
+  --accent-2: #3b82f6; /* secondary blue accent */
+  --muted-border: rgba(15,23,42,0.06);
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;font-family:Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;color:var(--muted);background:var(--bg);display:flex;align-items:center;justify-content:center;padding:24px}
+.container{width:100%;max-width:880px;background:var(--card);border-radius:12px;padding:20px;box-shadow:0 6px 20px rgba(2,6,23,0.06)}
+.site-header{display:flex;align-items:center;margin-bottom:12px}
+.brand{display:flex;gap:12px;align-items:center}
+.brand img{width:64px;height:64px;border-radius:10px;background:linear-gradient(90deg,var(--accent),var(--accent-2));object-fit:cover}
+h1{margin:0;color:#0f1724;font-size:20px}
+.content{padding:12px 0}
+.versions{margin:12px 0;display:flex;flex-direction:column;gap:8px}
+.version{background:linear-gradient(180deg, rgba(2,6,23,0.02), rgba(2,6,23,0.01));padding:10px;border-radius:8px;display:flex;justify-content:space-between;align-items:center;border:1px solid var(--muted-border)}
+.actions{display:flex;gap:8px;align-items:center;margin-top:12px}
+.btn{background:transparent;border:1px solid var(--muted-border);color:var(--muted);padding:8px 12px;border-radius:8px;cursor:pointer;text-decoration:none}
+.btn.primary{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:white; border: none}
+.slug{padding:8px;border-radius:8px;border:1px solid var(--muted-border);background:transparent;color:var(--muted)}
+.site-footer{margin-top:14px;border-top:1px dashed rgba(2,6,23,0.04);padding-top:10px;color:var(--muted-2);font-size:13px}
+@media (max-width:520px){.brand img{width:48px;height:48px}} 
