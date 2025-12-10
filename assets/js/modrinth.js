@@ -37,21 +37,6 @@
     });
   }
 
-  // if #mods-list exists, render only type 'mod' items
-  function renderModsList(items){
-    const container = document.querySelector('#mods-list');
-    if(!container) return;
-    const mods = items.filter(i => {
-      const t = (i.type||'').toLowerCase();
-      const tagList = (i.tags||[]).map(x=>x.toString().toLowerCase());
-      // include mods, modpacks, resource packs, datapacks, plugins
-      const typeMatches = ['mod','modpack','resource','resource_pack','datapack','plugin'].some(k => t.includes(k));
-      const tagMatches = tagList.some(tag => ['mod','resource','datapack','plugin','modpack'].includes(tag));
-      return typeMatches || tagMatches;
-    });
-    renderInto(container, mods.length? mods : items);
-  }
-
   async function loadModpacks(){
     const items = await loadFromStatic();
     if(!items || !items.length){
@@ -61,7 +46,6 @@
       return;
     }
     renderModpacksGrouped(items);
-    renderModsList(items);
     document.dispatchEvent(new CustomEvent('modpacksRendered'));
   }
 
