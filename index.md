@@ -22,24 +22,251 @@ description: Browse curated Minecraft mods, resource packs, datapacks, modpacks 
   {% include modpacks.html %}
 </section>
 
+<section class="section" id="project-stats">
+  <h2>Project Snapshot</h2>
+  <p class="muted">Live data pulled from our Modrinth cache</p>
+  <div class="stats-grid" id="stats-grid">
+    <div class="stat-card">
+      <p class="muted">Total Projects</p>
+      <div class="stat-number" id="stat-projects">—</div>
+      <div class="stat-sub" id="stat-projects-sub">Loading…</div>
+    </div>
+    <div class="stat-card">
+      <p class="muted">Total Downloads</p>
+      <div class="stat-number" id="stat-downloads">—</div>
+      <div class="stat-sub" id="stat-downloads-sub">Loading…</div>
+    </div>
+    <div class="stat-card">
+      <p class="muted">Supported Loaders</p>
+      <div class="stat-number" id="stat-loaders-count">—</div>
+      <div class="stat-sub" id="stat-loaders">Loading…</div>
+    </div>
+    <div class="stat-card">
+      <p class="muted">Game Versions</p>
+      <div class="stat-number" id="stat-versions">—</div>
+      <div class="stat-sub" id="stat-versions-sub">Loading…</div>
+    </div>
+  </div>
+  <div class="card" id="top-categories" style="margin-top:16px;">
+    <h3 style="margin-top:0">Top Categories</h3>
+    <div id="stat-categories" class="pill-row">Loading…</div>
+  </div>
+  <div class="card" id="downloads-card" style="margin-top:16px;">
+    <h3 style="margin-top:0">Top Downloads</h3>
+    <p class="muted" id="stat-downloads-note">Highest downloaded projects</p>
+    <div class="line-chart" id="downloads-chart"></div>
+  </div>
+</section>
+
+{% assign featured_docs = site.docs | sort: 'nav_order' | slice: 0, 3 %}
+{% if featured_docs and featured_docs.size > 0 %}
+<section class="section" id="featured-docs">
+  <h2>Docs Spotlight</h2>
+  <p class="muted">Quick links to key guides</p>
+  <div class="grid">
+    {% for doc in featured_docs %}
+      <a class="card" href="{{ doc.url | relative_url }}" style="text-decoration:none">
+        <h3 style="margin-top:0">{{ doc.title }}</h3>
+        {% if doc.description %}<p class="muted">{{ doc.description }}</p>{% else %}<p class="muted">Read more</p>{% endif %}
+        <span class="pill">Docs</span>
+      </a>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+
 <section class="section">
   <h2>How It Works</h2>
   <div class="grid">
     <div class="card">
-      <h3>📦 Static Content</h3>
+      <h3><i class="fa-solid fa-box"></i> Static Content</h3>
       <p>All projects are stored as static data. No database needed.</p>
     </div>
     <div class="card">
-      <h3>🔄 Auto-Update</h3>
+      <h3><i class="fa-solid fa-arrows-rotate"></i> Auto-Update</h3>
       <p>Daily syncs from Modrinth keep your showcase fresh.</p>
     </div>
     <div class="card">
-      <h3>⚡ Lightning Fast</h3>
+      <h3><i class="fa-solid fa-bolt"></i> Lightning Fast</h3>
       <p>Deployed globally on GitHub Pages for instant loading.</p>
     </div>
     <div class="card">
-      <h3>🎨 Beautiful</h3>
+      <h3><i class="fa-solid fa-palette"></i> Beautiful</h3>
       <p>Modern design with smooth animations and blur effects.</p>
     </div>
   </div>
 </section>
+
+<section class="section">
+  <h2>Get Started</h2>
+  <div class="grid">
+    <div class="card">
+      <h3>Read the Docs</h3>
+      <p class="muted">Configure branding, fetch projects, and deploy.</p>
+      <a class="btn primary" href="{{ '/docs/' | relative_url }}">Open Docs</a>
+    </div>
+    <div class="card">
+      <h3>Browse Projects</h3>
+      <p class="muted">Filter by type, loader, or version.</p>
+      <a class="btn primary" href="{{ '/projects/' | relative_url }}">View Catalog</a>
+    </div>
+    <div class="card">
+      <h3>Sync from Modrinth</h3>
+      <p class="muted">Run <code>npm run fetch</code> or use the scheduled workflow.</p>
+      <a class="btn ghost" href="{{ '/docs/' | relative_url }}">See Setup</a>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <h2>Stay in the Loop</h2>
+  <div class="grid">
+    <div class="card">
+      <h3>Join Discord</h3>
+      <p class="muted">Get support, share feedback, and see previews.</p>
+      <a class="btn ghost" href="{{ site.social.discord }}" target="_blank" rel="noopener">Open Discord</a>
+    </div>
+    <div class="card">
+      <h3>Watch GitHub</h3>
+      <p class="muted">Track updates, file issues, or contribute.</p>
+      <a class="btn ghost" href="{{ site.social.github }}" target="_blank" rel="noopener">View Repo</a>
+    </div>
+    <div class="card">
+      <h3>Follow Modrinth</h3>
+      <p class="muted">Stay updated on releases across all projects.</p>
+      <a class="btn ghost" href="{{ site.modrinth.organization_url | default: site.social.modrinth }}" target="_blank" rel="noopener">Go to Modrinth</a>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Load stats from cached mods.json and populate snapshot cards
+  document.addEventListener('DOMContentLoaded', async () => {
+    const modsUrl = '{{ '/data/mods.json' | relative_url }}';
+    const statProjects = document.getElementById('stat-projects');
+    const statProjectsSub = document.getElementById('stat-projects-sub');
+    const statDownloads = document.getElementById('stat-downloads');
+    const statDownloadsSub = document.getElementById('stat-downloads-sub');
+    const statLoaders = document.getElementById('stat-loaders');
+    const statLoadersCount = document.getElementById('stat-loaders-count');
+    const statVersions = document.getElementById('stat-versions');
+    const statVersionsSub = document.getElementById('stat-versions-sub');
+    const statCategories = document.getElementById('stat-categories');
+    const downloadsChart = document.getElementById('downloads-chart');
+    const downloadsNote = document.getElementById('stat-downloads-note');
+
+    try {
+      const res = await fetch(modsUrl);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const mods = await res.json();
+      if (!Array.isArray(mods) || mods.length === 0) throw new Error('No projects found');
+
+      const loaders = new Set();
+      const versions = new Set();
+      const categories = new Map();
+      let totalDownloads = 0;
+
+      mods.forEach(m => {
+        (m.loaders || []).forEach(l => loaders.add(l));
+        (m.game_versions || []).forEach(v => versions.add(v));
+        totalDownloads += Number(m.downloads || 0);
+        (m.categories || []).forEach(c => {
+          categories.set(c, (categories.get(c) || 0) + 1);
+        });
+        (m.display_categories || []).forEach(c => {
+          categories.set(c, (categories.get(c) || 0) + 1);
+        });
+      });
+
+      const formatNumber = (n) => n.toLocaleString(undefined, { maximumFractionDigits: 0 });
+
+      statProjects.textContent = formatNumber(mods.length);
+      statProjectsSub.textContent = 'Projects in catalog';
+
+      statDownloads.textContent = formatNumber(totalDownloads);
+      const avgDownloads = mods.length ? Math.round(totalDownloads / mods.length) : 0;
+      statDownloadsSub.textContent = `${formatNumber(avgDownloads)} avg per project`;
+
+      const loaderList = Array.from(loaders).sort();
+      const versionCount = versions.size;
+
+      statLoadersCount.textContent = loaderList.length ? formatNumber(loaderList.length) : '—';
+      statLoaders.textContent = loaderList.length ? loaderList.join(', ') : '—';
+      statVersions.textContent = versionCount ? formatNumber(versionCount) : '—';
+      statVersionsSub.textContent = versionCount ? 'Unique game versions' : '—';
+
+      const topCats = Array.from(categories.entries())
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 6)
+        .map(([c, count]) => `<span class="pill">${c} (${count})</span>`) || [];
+      statCategories.innerHTML = topCats.length ? topCats.join(' ') : 'No categories yet';
+
+      // Top downloads line chart (sorted by downloads desc)
+      const topDownloads = [...mods]
+        .filter(m => typeof m.downloads === 'number')
+        .sort((a, b) => (b.downloads || 0) - (a.downloads || 0))
+        .slice(0, 8);
+
+      if (topDownloads.length && downloadsChart) {
+        const maxDl = topDownloads[0].downloads || 1;
+        downloadsChart.innerHTML = '';
+
+        // Build points
+        const points = topDownloads.map((m, idx) => {
+          const x = (idx / Math.max(1, topDownloads.length - 1)) * 100;
+          const y = 100 - Math.max(4, ((m.downloads || 0) / maxDl) * 92);
+          return { x, y, label: m.title || m.name, value: m.downloads || 0 };
+        });
+
+        const polyline = document.createElementNS('http://www.w3.org/2000/svg', 'polyline');
+        polyline.setAttribute('fill', 'none');
+        polyline.setAttribute('stroke', 'var(--accent-primary)');
+        polyline.setAttribute('stroke-width', '2');
+        polyline.setAttribute('points', points.map(p => `${p.x},${p.y}`).join(' '));
+
+        const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        svg.setAttribute('viewBox', '0 0 100 100');
+        svg.setAttribute('preserveAspectRatio', 'none');
+        svg.classList.add('line-chart-svg');
+        svg.style.maxWidth = '100%';
+
+        // Circles and labels
+        points.forEach(p => {
+          const c = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+          c.setAttribute('cx', p.x);
+          c.setAttribute('cy', p.y);
+          c.setAttribute('r', 2.8);
+          c.setAttribute('fill', 'var(--accent-primary)');
+          c.setAttribute('stroke', 'var(--bg)');
+          c.setAttribute('stroke-width', '0.6');
+          c.dataset.label = `${p.label} – ${formatNumber(p.value)} dl`;
+          c.classList.add('line-point');
+          svg.appendChild(c);
+        });
+
+        svg.appendChild(polyline);
+        downloadsChart.appendChild(svg);
+
+        // Legend
+        const legend = document.createElement('div');
+        legend.className = 'line-legend';
+        legend.innerHTML = topDownloads.map(m => `<div class="legend-item"><span class="legend-dot"></span>${m.title || m.name} – ${formatNumber(m.downloads || 0)}</div>`).join('');
+        downloadsChart.appendChild(legend);
+      } else if (downloadsNote) {
+        downloadsNote.textContent = 'No download data available yet';
+      }
+    } catch (e) {
+      statProjects.textContent = '—';
+      statProjectsSub.textContent = 'Unavailable';
+      statDownloads.textContent = '—';
+      statDownloadsSub.textContent = 'Unavailable';
+      statLoadersCount.textContent = '—';
+      statLoaders.textContent = 'Unavailable';
+      statVersions.textContent = '—';
+      statVersionsSub.textContent = 'Unavailable';
+      statCategories.textContent = `Error loading stats: ${e.message}`;
+      if (downloadsNote) downloadsNote.textContent = 'Error loading downloads';
+      console.warn('Stats load failed:', e);
+    }
+  });
+</script>

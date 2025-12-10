@@ -14,12 +14,16 @@
   --gradient-primary:linear-gradient(135deg, #1bd96f 0%, #15a853 100%);
   --gradient-secondary:linear-gradient(135deg, #1bd96f 0%, #0066cc 100%);
   --radius:6px;
+  --content-max:1200px;
+  --container-inline:clamp(16px, 5vw, 32px);
+  --nav-height:76px;
 }
 *{box-sizing:border-box}
 html,body{
   height:100%;
   margin:0;
 }
+html{scroll-behavior:smooth}
 body{
   display:flex;
   flex-direction:column;
@@ -32,5 +36,21 @@ body{
 }
 main{
   flex:1;
+  width:100%;
 }
-.container{max-width:1200px;margin:88px auto 0;padding:32px 24px;width:100%}
+.container{
+  width:100%;
+  max-width:var(--content-max);
+  margin:calc(var(--nav-height) + 12px) auto 0;
+  padding:clamp(16px, 4vw, 32px);
+}
+
+@media (max-width:960px){
+  :root{--nav-height:88px}
+  .container{margin:calc(var(--nav-height) + 8px) auto 0;padding:clamp(14px, 4vw, 24px)}
+}
+
+@media (max-width:640px){
+  :root{--nav-height:104px}
+  .container{margin:calc(var(--nav-height) + 6px) auto 0;padding:clamp(12px, 5vw, 20px)}
+}

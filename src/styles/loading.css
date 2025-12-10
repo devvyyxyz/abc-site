@@ -1,13 +1,4 @@
-/* Prevent flash of unstyled content */
-body {
-  opacity: 1;
-  transition: opacity 0.3s ease-in;
-}
-
-body.css-loaded {
-  opacity: 1;
-}
-
+/* Preloader overlay */
 .loading-overlay {
   position: fixed;
   top: 0;
@@ -21,11 +12,26 @@ body.css-loaded {
   z-index: 9999;
   pointer-events: auto;
   opacity: 1;
-  transition: opacity 0.3s ease-out, z-index 0s;
+  transition: opacity 0.4s ease-out, z-index 0s linear 0.4s;
 }
 
 .loading-overlay.hidden {
   opacity: 0;
   pointer-events: none;
   z-index: -1;
+}
+
+/* Spinner animation */
+.spinner {
+  width: 48px;
+  height: 48px;
+  border: 3px solid rgba(27, 217, 111, 0.2);
+  border-top: 3px solid var(--accent-primary);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }

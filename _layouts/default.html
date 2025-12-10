@@ -35,6 +35,37 @@
     <link rel="stylesheet" href="{{ '/assets/css/components.css' | relative_url }}">
     <link rel="stylesheet" href="{{ '/assets/css/modpacks.css' | relative_url }}">
     <link rel="stylesheet" href="{{ '/assets/css/loading.css' | relative_url }}">
+
+    <!-- Preloader Script (critical, inline) -->
+    <script>
+      (function() {
+        const isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const bgColor = isDarkMode ? '#0d0d0d' : '#f6fbfa';
+        document.documentElement.style.backgroundColor = bgColor;
+        document.body.style.backgroundColor = bgColor;
+
+        const overlay = document.createElement('div');
+        overlay.className = 'loading-overlay';
+        overlay.id = 'loading-overlay';
+        overlay.innerHTML = '<div class="spinner"></div>';
+        document.body.appendChild(overlay);
+
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', hidePreloader);
+        } else {
+          hidePreloader();
+        }
+
+        function hidePreloader() {
+          const preloader = document.getElementById('loading-overlay');
+          if (preloader) {
+            preloader.classList.add('hidden');
+          }
+        }
+
+        window.hidePreloader = hidePreloader;
+      })();
+    </script>
   </head>
   <body>
     {% include nav.html %}
