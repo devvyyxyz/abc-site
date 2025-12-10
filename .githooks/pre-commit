@@ -1,0 +1,24 @@
+#!/bin/bash
+# Pre-commit hook to check for common issues
+
+echo "Running pre-commit checks..."
+
+# Check for trailing whitespace (except in markdown)
+if git diff --cached --diff-filter=ACM | grep -E '\s+$' --exclude="*.md" > /dev/null; then
+  echo "❌ Error: Trailing whitespace detected"
+  exit 1
+fi
+
+# Check for large files
+if git diff --cached --name-only | while read file; do
+  size=$(git diff --cached --name-only -z | xargs -0 du -h | sort -rh | head -1 | awk '{print $1}')
+  if [ "${size%M}" -gt 5 ]; then
+    echo "❌ Error: File $file is larger than 5MB"
+    exit 1
+  fi
+done; then
+  exit 1
+fi
+
+echo "✅ Pre-commit checks passed"
+exit 0

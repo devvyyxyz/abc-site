@@ -1,0 +1,29 @@
+# Jekyll Configuration
+title: Minecraft Mods & Packs Showcase
+description: Browse curated Minecraft mods, resource packs, datapacks, modpacks and plugins from our organization.
+
+# Build settings
+markdown: kramdown
+# theme: minima  # Disabled due to Ruby 2.6 compatibility
+
+# Exclude from processing
+exclude:
+  - .gitignore
+  - scripts/
+  - Gemfile
+  - Gemfile.lock
+  - vendor/
+
+site:
+  name: Your Site
+  title: Minecraft Mods & Packs Showcase
+  description: Browse curated Minecraft mods, resource packs, datapacks, modpacks and plugins.
+  logo: /assets/images/logo.png
+  url: https://yoursite.com
+  color: "#00c4a7"
+
+# Social links
+social:
+  discord: ""
+  twitter: ""
+  github: ""

@@ -1,0 +1,16 @@
+{
+  "name": "abc-site",
+  "version": "1.0.0",
+  "description": "Static Minecraft showcase site",
+  "type": "module",
+  "scripts": {
+    "fetch": "node scripts/fetch-modrinth.js",
+    "dev": "cd src/pages && python3 -m http.server 8000"
+  },
+  "keywords": ["minecraft", "modpacks", "showcase", "static"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "node-fetch": "^3.3.2"
+  }
+}

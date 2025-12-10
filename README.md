@@ -1,41 +1,58 @@
-# Minecraft Showcase (static)
+# ABC Site - Minecraft Showcase
 
-This is a minimal static website to showcase Minecraft mods, resource packs, datapacks, modpacks, and plugins.
+A Jekyll-based static site for showcasing Minecraft mods, resource packs, datapacks, modpacks, and plugins.
 
-Quick features:
-- Floating, blurred navbar and footer
-- Partial includes using `<div data-include="./partials/xxx.html"></div>`
-- Dynamic modpack list from `data/modpacks.json`
-- Small animations and notifications
+## Quick Start
 
-How to run locally
+### Prerequisites
+- Ruby 2.6+ with Bundler
+- Node.js (optional, for fetching Modrinth data)
 
-1. From the project root run a static server, for example using Python (macOS):
-
+### Setup
 ```bash
-cd /Users/kaispife/Documents/VSC/abc-site
-python3 -m http.server 8000
-# then open http://localhost:8000
+# Install dependencies
+bundle install
+
+# Start development server
+bundle exec jekyll serve
+
+# Visit http://localhost:4000
 ```
 
-Adding content
+## Project Structure
 
-- Partials: Add or edit files in `partials/`. Any element with `data-include` will be fetched and inserted. Example: `<div data-include="./partials/nav.html"></div>`.
--- Modpacks: Edit `data/modpacks.json` — each object should include `id`, `name`, `description`, `thumbnail` (URL), `download`, and optional `tags` array.
-- Modrinth integration: Projects are fetched at build time via GitHub Actions. The token is stored securely in GitHub Secrets.
+See [`docs/PROJECT_STRUCTURE.md`](docs/PROJECT_STRUCTURE.md) for detailed directory layout.
 
-How Modrinth loading works (build-time)
-- A GitHub Actions workflow runs `scripts/fetch-modrinth.js` daily (and on push) using the `MODRINTH_TOKEN` secret.
-- Projects are written to `data/modpacks.json` and committed automatically.
-- The static site loads from this file at runtime (no API calls in the browser).
+**Key directories:**
+- `src/` - Source code (scripts, styles)
+- `assets/` - Compiled output
+- `_includes/` - Template partials
+- `_layouts/` - Page layouts
+- `docs/` - Developer documentation
 
-Manual fetch (local development)
-```bash
-export MODRINTH_ORG=abcxyz
-export MODRINTH_TOKEN=your_token_here
-node scripts/fetch-modrinth.js
-```If you prefer purely static entries, open `partials/modpacks.html` and add HTML cards directly.
+## Contributing
 
-Customization ideas
-- Replace thumbnails with your own images under `assets/img/` and update `data/modpacks.json`.
-- Tweak `assets/css/styles.css` for colors, radii, and animation timing.
+See [`docs/CONTRIBUTING.md`](docs/CONTRIBUTING.md) for development guidelines.
+
+## Features
+
+- 🎨 Clean, responsive design
+- 🔍 Built-in search functionality
+- 🌐 Modrinth API integration for auto-fetching projects
+- 📱 Mobile-friendly
+- ⚡ Static site (no backend required)
+- 🎯 SEO-optimized
+
+## Configuration
+
+Edit `_config.yml` to customize:
+- Site title and description
+- Social media links
+- Theme color
+- Organization logo
+
+## Deployment
+
+Automatically deployed to GitHub Pages on push to `main` branch.
+
+See `.github/workflows/` for CI/CD configuration.

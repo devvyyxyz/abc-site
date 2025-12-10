@@ -1,0 +1,32 @@
+# Jekyll
+_site/
+.jekyll-cache/
+.jekyll-metadata
+
+# Ruby
+.ruby-version
+.ruby-gemset
+Gemfile.lock
+vendor/bundle/
+.bundle/
+
+# Node
+node_modules/
+package-lock.json
+yarn.lock
+dist/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+.env
+.env.local
+
+# Build artifacts
+*.log
+.cache
+build/
