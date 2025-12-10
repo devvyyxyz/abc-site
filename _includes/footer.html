@@ -8,9 +8,10 @@
       <div>
         <h4 style="margin:0 0 16px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text)">Links</h4>
         <div style="display:flex;flex-direction:column;gap:10px;font-size:13px">
-          <a href="/" style="color:var(--text-secondary);text-decoration:none;transition:color 0.2s">Home</a>
-          <a href="/about/" style="color:var(--text-secondary);text-decoration:none;transition:color 0.2s">About</a>
-          <a href="/projects/" style="color:var(--text-secondary);text-decoration:none;transition:color 0.2s">Projects</a>
+          <a href="{{ '/' | relative_url }}" style="color:var(--text-secondary);text-decoration:none;transition:color 0.2s">Home</a>
+          <a href="{{ '/about/' | relative_url }}" style="color:var(--text-secondary);text-decoration:none;transition:color 0.2s">About</a>
+          <a href="{{ '/docs/' | relative_url }}" style="color:var(--text-secondary);text-decoration:none;transition:color 0.2s">Docs</a>
+          <a href="{{ '/projects/' | relative_url }}" style="color:var(--text-secondary);text-decoration:none;transition:color 0.2s">Projects</a>
         </div>
       </div>
       <div>

@@ -7,10 +7,23 @@
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import yaml from 'js-yaml';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-const token = process.env.MODRINTH_API_TOKEN;
+// Load config
+let siteConfig = {};
+try {
+  const raw = fs.readFileSync(path.join(__dirname, '..', '_config.yml'), 'utf8');
+  siteConfig = yaml.load(raw) || {};
+} catch (e) {
+  console.warn('⚠️ Could not read _config.yml, falling back to defaults');
+}
+
+const modrinthCfg = siteConfig.modrinth || {};
+const orgSlug = process.env.MODRINTH_ORG_SLUG || modrinthCfg.org_slug || 'abcxyz';
+const token = process.env.MODRINTH_API_TOKEN || (modrinthCfg.api_token_env ? process.env[modrinthCfg.api_token_env] : undefined);
+const userAgent = modrinthCfg.user_agent || 'ABC-Site (github.com/devvyyxyz/abc-site)';
 
 async function fetchProjects() {
   try {
@@ -18,7 +31,7 @@ async function fetchProjects() {
 
     // Build headers (token is optional)
     const headers = {
-      'User-Agent': 'ABC-Site (github.com/devvyyxyz/abc-site)'
+      'User-Agent': userAgent
     };
     if (token) {
       headers['Authorization'] = token;
@@ -26,15 +39,15 @@ async function fetchProjects() {
 
     let projects = [];
 
-    // Fetch abcxyz organization projects using v3 API (public)
+    // Fetch organization projects using v3 API (public)
     try {
-      const orgRes = await fetch('https://api.modrinth.com/v3/organization/abcxyz/projects', {
+      const orgRes = await fetch(`https://api.modrinth.com/v3/organization/${orgSlug}/projects`, {
         headers
       });
 
       if (orgRes.ok) {
         const orgProjects = await orgRes.json();
-        console.log(`✓ Found ${orgProjects.length} projects for organization abcxyz`);
+        console.log(`✓ Found ${orgProjects.length} projects for organization ${orgSlug}`);
         projects = orgProjects;
       }
     } catch (e) {
@@ -101,7 +114,7 @@ async function fetchProjects() {
         short_description: shortDescription,
         type: projectType,
         project_type: projectType,
-        author: merged.author || (merged.organization ? 'abcxyz' : 'unknown'),
+        author: merged.author || (merged.organization ? orgSlug : 'unknown'),
         thumbnail: merged.icon_url,
         icon_url: merged.icon_url,
         download: `https://modrinth.com/${projectType}/${merged.slug}`,

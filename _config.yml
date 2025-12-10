@@ -14,13 +14,38 @@ exclude:
   - Gemfile.lock
   - vendor/
 
+# Site URLs
+url: https://devvyyxyz.github.io
+baseurl: /abc-site
+
 site:
   name: ABC
   title: Minecraft Mods & Packs Showcase
   description: Browse curated Minecraft mods, resource packs, datapacks, modpacks and plugins.
   logo: /assets/images/logo.svg
-  url: https://yoursite.com
-  color: "#0066cc"
+  color: "#1bd96f"
+
+branding:
+  accent: "#1bd96f"
+  background: "#0d0d0d"
+  card: "#1f1f1f"
+  border: "#232323"
+
+meta:
+  og_image: /assets/images/logo.svg
+  favicon: /assets/images/favicon.svg
+  apple_touch_icon: /assets/images/logo.svg
+
+modrinth:
+  org_slug: abcxyz
+  organization_url: https://modrinth.com/organization/abcxyz
+  user_agent: ABC-Site (github.com/devvyyxyz/abc-site)
+  api_token_env: MODRINTH_API_TOKEN
+
+collections:
+  docs:
+    output: true
+    permalink: /docs/:path/
 
 # Social links
 social:

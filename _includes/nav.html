@@ -1,14 +1,15 @@
 <header class="floating-nav">
   <div class="nav-inner">
-    <a class="logo" href="/" style="display:flex;align-items:center;gap:8px">
-      <img src="{{ site.site.logo }}" alt="Logo" style="height:32px;width:auto">
+    <a class="logo" href="{{ '/' | relative_url }}" style="display:flex;align-items:center;gap:8px">
+      <img src="{{ site.site.logo | relative_url }}" alt="Logo" style="height:32px;width:auto">
       <span>{{ site.site.name }}</span>
     </a>
     <nav class="links">
-      <a href="/">Home</a>
-      <a href="/about/">About</a>
-      <a href="/projects/">Projects</a>
-      <a href="{{ site.social.modrinth }}" target="_blank" rel="noopener">Organization</a>
+      <a href="{{ '/' | relative_url }}">Home</a>
+      <a href="{{ '/about/' | relative_url }}">About</a>
+      <a href="{{ '/docs/' | relative_url }}">Docs</a>
+      <a href="{{ '/projects/' | relative_url }}">Projects</a>
+      <a href="{{ site.modrinth.organization_url | default: site.social.modrinth }}" target="_blank" rel="noopener">Organization</a>
     </nav>
     <div class="nav-actions">
       <div id="social-links-nav" style="display:flex;gap:6px;align-items:center"></div>

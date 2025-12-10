@@ -1,58 +1,45 @@
 # ABC Site - Minecraft Showcase
 
-A Jekyll-based static site for showcasing Minecraft mods, resource packs, datapacks, modpacks, and plugins.
+Minimal steps to run and update the site.
 
-## Quick Start
+## Prerequisites
+- Ruby 3.x with Bundler
+- Node.js 20+
 
-### Prerequisites
-- Ruby 2.6+ with Bundler
-- Node.js (optional, for fetching Modrinth data)
-
-### Setup
+## One-time setup
 ```bash
-# Install dependencies
 bundle install
-
-# Start development server
-bundle exec jekyll serve
-
-# Visit http://localhost:4000
+npm install
 ```
 
-## Project Structure
+## Configure
+Edit `_config.yml`:
+- `url` / `baseurl` for GitHub Pages
+- `site` block (name, title, description, logo)
+- `branding` colors and `meta` icons
+- `social` links
+- `modrinth.org_slug`, `modrinth.organization_url`, optional `modrinth.api_token_env`
 
-See [`docs/PROJECT_STRUCTURE.md`](docs/PROJECT_STRUCTURE.md) for detailed directory layout.
+## Fetch projects (Modrinth cache)
+```bash
+npm run fetch   # writes data/mods.json using config + MODRINTH_API_TOKEN
+```
 
-**Key directories:**
-- `src/` - Source code (scripts, styles)
-- `assets/` - Compiled output
-- `_includes/` - Template partials
-- `_layouts/` - Page layouts
-- `docs/` - Developer documentation
+## Develop
+```bash
+bundle exec jekyll serve --livereload
+# Visit http://localhost:4000/abc-site/
+```
 
-## Contributing
+## Deploy
+GitHub Actions build/deploy on push to `main` (see `.github/workflows/`).
 
-See [`docs/CONTRIBUTING.md`](docs/CONTRIBUTING.md) for development guidelines.
-
-## Features
-
-- 🎨 Clean, responsive design
-- 🔍 Built-in search functionality
-- 🌐 Modrinth API integration for auto-fetching projects
-- 📱 Mobile-friendly
-- ⚡ Static site (no backend required)
-- 🎯 SEO-optimized
-
-## Configuration
-
-Edit `_config.yml` to customize:
-- Site title and description
-- Social media links
-- Theme color
-- Organization logo
-
-## Deployment
-
-Automatically deployed to GitHub Pages on push to `main` branch.
-
-See `.github/workflows/` for CI/CD configuration.
+## Extras / optional setup
+- Rebrand: swap `site` text in `_config.yml` and replace `assets/images/logo.svg`, `meta.favicon`, `meta.apple_touch_icon`.
+- Socials: keep `social` URLs; you can extend with `contact.email` or a `social_links` map for new platforms.
+- SEO: add `meta.og_title`, `meta.og_description`, `meta.twitter_card` if you need overrides.
+- Analytics: optional `analytics.google_tag` or `analytics.plausible_domain` keys; include scripts conditionally if set.
+- Modrinth fetch: set `MODRINTH_API_TOKEN` (or `modrinth.api_token_env`) and run `npm run fetch`; in CI use the `fetch-modrinth` workflow/schedule.
+- Smoke test: `bundle exec jekyll build` to verify before pushing.
+- Assets tip: keep icons small; update `favicon`/`apple_touch_icon` paths when swapping.
+- Deployment note: for custom domains set `url` to `https://yourdomain` and `baseurl` to blank, then update DNS/CNAME.

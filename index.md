@@ -9,8 +9,8 @@ description: Browse curated Minecraft mods, resource packs, datapacks, modpacks 
     <h1>Showcase: Minecraft Mods & Packs</h1>
     <p class="muted">Mods, resource packs, datapacks, modpacks and plugins — curated from our organization.</p>
     <div class="cta-row">
-      <a class="btn primary" href="/projects/">Browse Projects</a>
-      <a class="btn ghost" href="/about/">Learn More</a>
+      <a class="btn primary" href="{{ '/projects/' | relative_url }}">Browse Projects</a>
+      <a class="btn ghost" href="{{ '/about/' | relative_url }}">Learn More</a>
     </div>
   </div>
 </section>

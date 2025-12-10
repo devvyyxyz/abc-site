@@ -169,7 +169,7 @@ permalink: /projects/
     [typeEl, loaderEl, versionEl].forEach(el => el.addEventListener('change', handleFilterChange));
 
     try {
-      const res = await fetch('/data/mods.json');
+      const res = await fetch('{{ '/data/mods.json' | relative_url }}');
       if (!res.ok) throw new Error(`HTTP ${res.status}: Failed to load projects`);
       const projects = await res.json();
 

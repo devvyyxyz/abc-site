@@ -1,0 +1,11 @@
+---
+layout: default
+---
+<section class="section">
+  <p class="muted" style="margin-bottom:6px;letter-spacing:0.5px;text-transform:uppercase;font-size:12px">Docs</p>
+  <h1 style="margin-top:0">{{ page.title }}</h1>
+  {% if page.description %}<p class="muted" style="max-width:680px">{{ page.description }}</p>{% endif %}
+  <article class="card" style="margin-top:20px;padding:20px;background:var(--card);border:1px solid var(--border)">
+    {{ content }}
+  </article>
+</section>
