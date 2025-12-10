@@ -10,7 +10,7 @@
         <div style="display:flex;flex-direction:column;gap:10px;font-size:13px">
           <a href="/" style="color:var(--text-secondary);text-decoration:none;transition:color 0.2s">Home</a>
           <a href="/about/" style="color:var(--text-secondary);text-decoration:none;transition:color 0.2s">About</a>
-          <a href="/mods/" style="color:var(--text-secondary);text-decoration:none;transition:color 0.2s">Projects</a>
+          <a href="/projects/" style="color:var(--text-secondary);text-decoration:none;transition:color 0.2s">Projects</a>
         </div>
       </div>
       <div>
@@ -39,7 +39,7 @@
   function renderSocialLinks() {
     const navContainer = document.getElementById('social-links-nav');
     const footerContainer = document.getElementById('social-links-footer');
-    
+
     Object.entries(socials).forEach(([key, social]) => {
       if (social.url && social.url.trim()) {
         // Nav icon button
@@ -64,7 +64,7 @@
           navLink.style.borderColor = 'var(--border)';
         };
         if (navContainer) navContainer.appendChild(navLink);
-        
+
         // Footer text link with icon
         const footerLink = document.createElement('a');
         footerLink.href = social.url;
@@ -88,9 +88,9 @@
       }
     });
   }
-  
+
   document.addEventListener('DOMContentLoaded', renderSocialLinks);
-  
+
   // Set year in footer
   document.getElementById('year').textContent = new Date().getFullYear();
 </script>

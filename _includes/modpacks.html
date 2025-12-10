@@ -23,6 +23,13 @@
       container.innerHTML = `<div class="card"><p class="muted">Error loading projects: ${e.message}</p></div>`;
     }
 
+    function formatDate(value) {
+      if (!value) return 'Unknown';
+      const d = new Date(value);
+      if (Number.isNaN(d.getTime())) return 'Unknown';
+      return d.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
+    }
+
     function renderFeatured(items) {
       container.innerHTML = '';
       items.forEach((m, i) => {
@@ -39,7 +46,22 @@
         const shortDesc = m.short_description || m.summary || m.description || '';
         const desc = shortDesc.length > 140 ? `${shortDesc.substring(0, 140)}...` : shortDesc;
         const tags = (m.display_categories || m.categories || []).slice(0, 4);
-        meta.innerHTML = `<h3>${m.title || m.name}</h3><p>${desc}</p><div class="tags">${tags.map(c => `<span>#${c}</span>`).join(' ')}</div>`;
+        const versions = (m.game_versions || []).slice(-2).reverse();
+        const loaders = (m.loaders || []).slice(0, 2);
+
+        const pill = (label, icon) => `<span class="pill">${icon ? `<i class="fa-solid fa-${icon}"></i>` : ''}${label}</span>`;
+        const metaInfo = [
+          m.updated || m.published ? pill(`Updated ${formatDate(m.updated || m.published)}`, 'clock') : '',
+          versions.length ? pill(`MC ${versions.join(', ')}`, 'cube') : '',
+          loaders.length ? pill(`Loaders: ${loaders.join(', ')}`, 'cogs') : ''
+        ].filter(Boolean).join('');
+
+        meta.innerHTML = `
+          <h3>${m.title || m.name}</h3>
+          <p>${desc}</p>
+          <div class="meta-info">${metaInfo}</div>
+          <div class="tags">${tags.map(c => `<span class="pill">#${c}</span>`).join(' ')}</div>
+        `;
 
         const action = document.createElement('div');
         action.className = 'actions';

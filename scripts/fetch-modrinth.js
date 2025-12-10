@@ -70,28 +70,56 @@ async function fetchProjects() {
       }
     }
 
+    // Deduplicate projects by id
+    const deduped = Array.from(new Map(projects.map(p => [p.id, p])).values());
+
+    // Fetch detailed metadata for each project (license, loaders, versions, dates)
+    const detailedProjects = await Promise.all(deduped.map(async (p) => {
+      try {
+        const detailRes = await fetch(`https://api.modrinth.com/v2/project/${p.id || p.slug}`, { headers });
+        if (!detailRes.ok) throw new Error(`detail HTTP ${detailRes.status}`);
+        const detail = await detailRes.json();
+        return { base: p, detail };
+      } catch (e) {
+        console.warn(`⚠️ Detail fetch failed for ${p.slug || p.id}:`, e.message);
+        return { base: p, detail: null };
+      }
+    }));
+
     // Format projects for display
-    const formattedProjects = projects.map(p => {
-      // Handle both v2 (project_type) and v3 (project_types array) formats
-      const projectType = p.project_type || (p.project_types && p.project_types[0]) || 'mod';
-      const shortDescription = p.summary || p.description || '';
+    const formattedProjects = detailedProjects.map(({ base, detail }) => {
+      const merged = { ...base, ...(detail || {}) };
+      const projectType = merged.project_type || (merged.project_types && merged.project_types[0]) || 'mod';
+      const shortDescription = merged.summary || merged.description || merged.body || '';
 
       return {
-        id: p.id,
-        slug: p.slug,
-        name: p.name,
-        title: p.name,
-        description: p.description,
+        id: merged.id,
+        slug: merged.slug,
+        name: merged.name,
+        title: merged.title || merged.name,
+        description: merged.body || merged.description,
         short_description: shortDescription,
         type: projectType,
         project_type: projectType,
-        author: p.author || (p.organization ? 'abcxyz' : 'unknown'),
-        thumbnail: p.icon_url,
-        icon_url: p.icon_url,
-        download: `https://modrinth.com/${projectType}/${p.slug}`,
-        categories: p.categories || [],
-        display_categories: p.additional_categories || [],
-        tags: p.categories || []
+        author: merged.author || (merged.organization ? 'abcxyz' : 'unknown'),
+        thumbnail: merged.icon_url,
+        icon_url: merged.icon_url,
+        download: `https://modrinth.com/${projectType}/${merged.slug}`,
+        categories: merged.categories || [],
+        display_categories: merged.additional_categories || [],
+        tags: merged.categories || [],
+        loaders: merged.loaders || [],
+        game_versions: merged.game_versions || [],
+        client_side: merged.client_side || 'optional',
+        server_side: merged.server_side || 'optional',
+        license: merged.license || null,
+        license_id: merged.license?.id || null,
+        license_name: merged.license?.name || null,
+        license_url: merged.license?.url || null,
+        downloads: merged.downloads || 0,
+        followers: merged.followers || 0,
+        published: merged.published || null,
+        updated: merged.updated || null
       };
     });
 
@@ -112,7 +140,5 @@ async function fetchProjects() {
     process.exit(1);
   }
 }
-
-fetchProjects();
 
 fetchProjects();
