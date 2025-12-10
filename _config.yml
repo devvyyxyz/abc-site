@@ -15,12 +15,12 @@ exclude:
   - vendor/
 
 site:
-  name: Your Site
+  name: ABC
   title: Minecraft Mods & Packs Showcase
   description: Browse curated Minecraft mods, resource packs, datapacks, modpacks and plugins.
-  logo: /assets/images/logo.png
+  logo: /assets/images/logo.svg
   url: https://yoursite.com
-  color: "#00c4a7"
+  color: "#0066cc"
 
 # Social links
 social:
