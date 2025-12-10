@@ -1,0 +1,4 @@
+{
+  "orgSlug": "abcxyz",
+  "note": "Token moved to GitHub Secrets (MODRINTH_TOKEN). Projects are fetched at build time."
+}
