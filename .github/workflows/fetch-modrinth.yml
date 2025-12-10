@@ -21,20 +21,33 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm install
 
       - name: Fetch projects
         env:
           MODRINTH_API_TOKEN: ${{ secrets.MODRINTH_API_TOKEN }}
-        run: node scripts/fetch-modrinth.js
+        run: npm run fetch
 
       - name: Commit changes
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
           git add data/mods.json
-          git diff --quiet && git diff --staged --quiet || (git commit -m "chore: update modrinth projects" && git push origin main)
+          if git status --porcelain | grep -q "data/mods.json"; then
+            git commit -m "chore: update modrinth projects"
+            git push origin main
+          else
+            echo "No changes to commit"
+          fi
