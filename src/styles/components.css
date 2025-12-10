@@ -5,14 +5,14 @@
 .btn.ghost{background:transparent;border:1px solid var(--border);color:var(--text);transition:all 0.2s ease}
 .btn.ghost:hover{background:var(--bg-secondary);border-color:var(--accent-primary);color:var(--accent-primary)}
 
-.cta-row{display:flex;gap:12px;margin-top:20px;flex-wrap:wrap}
-.cta-row .btn{padding:12px 24px;font-size:15px}
+.cta-row{display:flex;gap:12px;margin-top:24px;flex-wrap:wrap}
+.cta-row .btn{padding:14px 28px;font-size:15px;font-weight:600}
 
 /* Cards */
-.card{padding:20px;border-radius:var(--radius);background:var(--card);border:1px solid var(--border);box-shadow:0 2px 8px rgba(0,0,0,0.3);transition:transform 0.2s ease,box-shadow 0.2s ease,border-color 0.2s ease}
+.card{padding:24px;border-radius:var(--radius);background:var(--card);border:1px solid var(--border);box-shadow:0 2px 8px rgba(0,0,0,0.3);transition:transform 0.2s ease,box-shadow 0.2s ease,border-color 0.2s ease}
 .card:hover{transform:translateY(-4px);box-shadow:0 8px 16px rgba(0,0,0,0.5);border-color:var(--accent-primary)}
-.card h3{margin:0 0 8px;font-size:16px;color:var(--text);font-weight:600}
-.card p{margin:0;color:var(--text-secondary);font-size:14px}
+.card h3{margin:0 0 12px;font-size:18px;color:var(--text);font-weight:700}
+.card p{margin:0;color:var(--text-secondary);font-size:15px;line-height:1.5}
 
 /* Utility */
 .muted{color:var(--muted)}

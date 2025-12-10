@@ -1,27 +1,55 @@
-<div id="modpacks-list">
-  {% if site.data.modpacks %}
-    <div class="grid">
-      {% for modpack in site.data.modpacks %}
-        <div class="card modpack">
-          {% if modpack.thumbnail %}
-            <img src="{{ modpack.thumbnail }}" alt="{{ modpack.name }}" class="thumbnail">
-          {% endif %}
-          <h4>{{ modpack.name }}</h4>
-          <p class="muted">{{ modpack.description }}</p>
-          {% if modpack.tags %}
-            <div class="tags">
-              {% for tag in modpack.tags %}
-                <span class="tag">{{ tag }}</span>
-              {% endfor %}
-            </div>
-          {% endif %}
-          <a href="{{ modpack.download }}" class="btn primary" target="_blank">Download</a>
-        </div>
-      {% endfor %}
-    </div>
-  {% else %}
-    <div class="card">
-      <p class="muted">No projects yet. Create <code>_data/modpacks.json</code> to add projects.</p>
-    </div>
-  {% endif %}
-</div>
+<div id="modpacks-list" class="modpacks-list"></div>
+
+<script>
+  // Featured projects pulled from the cached Modrinth feed
+  document.addEventListener('DOMContentLoaded', async () => {
+    const container = document.getElementById('modpacks-list');
+    if (!container) return;
+
+    try {
+      const res = await fetch('/data/mods.json');
+      if (!res.ok) throw new Error(`HTTP ${res.status}: Failed to load projects`);
+
+      const projects = await res.json();
+      if (!Array.isArray(projects) || projects.length === 0) {
+        container.innerHTML = '<div class="card"><p class="muted">No projects found. They will sync automatically.</p></div>';
+        return;
+      }
+
+      // Take the first few items to showcase on the homepage
+      renderFeatured(projects.slice(0, 3));
+    } catch (e) {
+      console.error('Failed to load featured projects:', e);
+      container.innerHTML = `<div class="card"><p class="muted">Error loading projects: ${e.message}</p></div>`;
+    }
+
+    function renderFeatured(items) {
+      container.innerHTML = '';
+      items.forEach((m, i) => {
+        const el = document.createElement('div');
+        el.className = 'modpack';
+        el.style.animationDelay = (i * 70) + 'ms';
+
+        const thumb = document.createElement('div');
+        thumb.className = 'thumb';
+        thumb.style.backgroundImage = `url(${m.icon_url || m.thumbnail || '/assets/images/favicon.svg'})`;
+
+        const meta = document.createElement('div');
+        meta.className = 'meta';
+        const shortDesc = m.short_description || m.summary || m.description || '';
+        const desc = shortDesc.length > 140 ? `${shortDesc.substring(0, 140)}...` : shortDesc;
+        const tags = (m.display_categories || m.categories || []).slice(0, 4);
+        meta.innerHTML = `<h3>${m.title || m.name}</h3><p>${desc}</p><div class="tags">${tags.map(c => `<span>#${c}</span>`).join(' ')}</div>`;
+
+        const action = document.createElement('div');
+        action.className = 'actions';
+        action.innerHTML = `<a class="btn primary" href="${m.download || `https://modrinth.com/mod/${m.slug || ''}`}" target="_blank" rel="noopener">View</a>`;
+
+        el.appendChild(thumb);
+        el.appendChild(meta);
+        el.appendChild(action);
+        container.appendChild(el);
+      });
+    }
+  });
+</script>

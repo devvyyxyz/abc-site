@@ -57,7 +57,9 @@ permalink: /mods/
 
         const meta = document.createElement('div');
         meta.className = 'meta';
-        meta.innerHTML = `<h3>${m.title || m.name}</h3><p>${(m.description || '').substring(0, 100)}...</p><div class="tags">${(m.display_categories || m.categories || []).slice(0, 4).map(c => `<span>#${c}</span>`).join(' ')}</div>`;
+        const shortDesc = m.short_description || m.summary || m.description || '';
+        const desc = shortDesc.length > 140 ? `${shortDesc.substring(0, 140)}...` : shortDesc;
+        meta.innerHTML = `<h3>${m.title || m.name}</h3><p>${desc}</p><div class="tags">${(m.display_categories || m.categories || []).slice(0, 4).map(c => `<span>#${c}</span>`).join(' ')}</div>`;
 
         const action = document.createElement('div');
         action.className = 'actions';

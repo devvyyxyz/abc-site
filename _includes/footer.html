@@ -1,27 +1,27 @@
 <footer class="floating-footer">
   <div class="footer-inner">
     <div>
-      <h4 style="margin:0 0 12px;font-size:16px;font-weight:700;color:var(--text)">{{ site.site.name }}</h4>
-      <p style="margin:0;font-size:13px;color:var(--text-secondary);max-width:300px;line-height:1.5">{{ site.site.description }}</p>
+      <h4 style="margin:0 0 16px;font-size:18px;font-weight:700;color:var(--text)">{{ site.site.name }}</h4>
+      <p style="margin:0;font-size:13px;color:var(--text-secondary);max-width:320px;line-height:1.6">{{ site.site.description }}</p>
     </div>
-    <div style="display:flex;gap:40px">
+    <div style="display:flex;gap:48px">
       <div>
-        <h4 style="margin:0 0 12px;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.7px;color:var(--text)">Links</h4>
-        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px">
+        <h4 style="margin:0 0 16px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text)">Links</h4>
+        <div style="display:flex;flex-direction:column;gap:10px;font-size:13px">
           <a href="/" style="color:var(--text-secondary);text-decoration:none;transition:color 0.2s">Home</a>
           <a href="/about/" style="color:var(--text-secondary);text-decoration:none;transition:color 0.2s">About</a>
           <a href="/mods/" style="color:var(--text-secondary);text-decoration:none;transition:color 0.2s">Projects</a>
         </div>
       </div>
       <div>
-        <h4 style="margin:0 0 12px;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.7px;color:var(--text)">Community</h4>
-        <div id="social-links-footer" style="display:flex;gap:10px;flex-direction:column"></div>
+        <h4 style="margin:0 0 16px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text)">Community</h4>
+        <div id="social-links-footer" style="display:flex;gap:12px;flex-direction:column"></div>
       </div>
     </div>
   </div>
-  <div style="border-top:1px solid var(--border);margin-top:32px;padding-top:24px;display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--text-secondary)">
+  <div style="border-top:1px solid var(--border);margin-top:32px;padding-top:24px;display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--text-secondary);flex-wrap:wrap;gap:16px">
     <div>© <span id="year"></span> {{ site.site.name }}. All rights reserved.</div>
-    <div style="display:flex;gap:16px">
+    <div style="display:flex;gap:20px">
       <a href="#" style="color:var(--text-secondary);text-decoration:none;transition:color 0.2s">Privacy</a>
       <a href="#" style="color:var(--text-secondary);text-decoration:none;transition:color 0.2s">Terms</a>
     </div>
@@ -31,9 +31,9 @@
 <script>
   // Social links configuration
   const socials = {
-    github: { name: 'GitHub', url: '{{ site.social.github }}' },
-    twitter: { name: 'Twitter', url: '{{ site.social.twitter }}' },
-    discord: { name: 'Discord', url: '{{ site.social.discord }}' }
+    github: { name: 'GitHub', icon: 'fab fa-github', url: '{{ site.social.github }}' },
+    twitter: { name: 'Twitter', icon: 'fab fa-x-twitter', url: '{{ site.social.twitter }}' },
+    discord: { name: 'Discord', icon: 'fab fa-discord', url: '{{ site.social.discord }}' }
   };
 
   function renderSocialLinks() {
@@ -48,8 +48,11 @@
         navLink.target = '_blank';
         navLink.rel = 'noopener';
         navLink.title = social.name;
-        navLink.style.cssText = 'display:flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:var(--radius);background:var(--bg-secondary);color:var(--text-secondary);text-decoration:none;font-size:16px;transition:all 0.2s ease;border:1px solid var(--border)';
-        navLink.textContent = key === 'github' ? '⚙️' : key === 'twitter' ? '𝕏' : '💬';
+        navLink.style.cssText = 'display:flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:var(--radius);background:var(--bg-secondary);color:var(--text-secondary);text-decoration:none;font-size:16px;transition:all 0.2s ease;border:1px solid var(--border)';
+        const icon = document.createElement('i');
+        icon.className = social.icon;
+        icon.style.fontSize = '18px';
+        navLink.appendChild(icon);
         navLink.onmouseover = () => {
           navLink.style.background = 'var(--accent-primary)';
           navLink.style.color = '#000000';
@@ -62,19 +65,32 @@
         };
         if (navContainer) navContainer.appendChild(navLink);
         
-        // Footer text link
+        // Footer text link with icon
         const footerLink = document.createElement('a');
         footerLink.href = social.url;
         footerLink.target = '_blank';
         footerLink.rel = 'noopener';
-        footerLink.textContent = social.name;
-        footerLink.style.cssText = 'color:var(--text-secondary);text-decoration:none;transition:color 0.2s;font-size:13px';
-        footerLink.onmouseover = () => footerLink.style.color = 'var(--accent-primary)';
-        footerLink.onmouseout = () => footerLink.style.color = 'var(--text-secondary)';
+        footerLink.style.cssText = 'display:flex;align-items:center;gap:8px;color:var(--text-secondary);text-decoration:none;transition:color 0.2s;font-size:13px';
+        const footerIcon = document.createElement('i');
+        footerIcon.className = social.icon;
+        footerIcon.style.width = '16px';
+        const footerText = document.createElement('span');
+        footerText.textContent = social.name;
+        footerLink.appendChild(footerIcon);
+        footerLink.appendChild(footerText);
+        footerLink.onmouseover = () => {
+          footerLink.style.color = 'var(--accent-primary)';
+        };
+        footerLink.onmouseout = () => {
+          footerLink.style.color = 'var(--text-secondary)';
+        };
         if (footerContainer) footerContainer.appendChild(footerLink);
       }
     });
   }
   
   document.addEventListener('DOMContentLoaded', renderSocialLinks);
+  
+  // Set year in footer
+  document.getElementById('year').textContent = new Date().getFullYear();
 </script>

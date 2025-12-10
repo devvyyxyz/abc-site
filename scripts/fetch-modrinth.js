@@ -74,12 +74,15 @@ async function fetchProjects() {
     const formattedProjects = projects.map(p => {
       // Handle both v2 (project_type) and v3 (project_types array) formats
       const projectType = p.project_type || (p.project_types && p.project_types[0]) || 'mod';
+      const shortDescription = p.summary || p.description || '';
+
       return {
         id: p.id,
         slug: p.slug,
         name: p.name,
         title: p.name,
         description: p.description,
+        short_description: shortDescription,
         type: projectType,
         project_type: projectType,
         author: p.author || (p.organization ? 'abcxyz' : 'unknown'),
