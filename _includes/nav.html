@@ -1,6 +1,9 @@
 <header class="floating-nav">
   <div class="nav-inner">
-    <a class="logo" href="/">{{ site.site.name }}</a>
+    <a class="logo" href="/" style="display:flex;align-items:center;gap:8px">
+      <img src="{{ site.site.logo }}" alt="Logo" style="height:32px;width:auto">
+      <span>{{ site.site.name }}</span>
+    </a>
     <nav class="links">
       <a href="/">Home</a>
       <a href="/about/">About</a>
