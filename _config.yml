@@ -24,6 +24,7 @@ site:
 
 # Social links
 social:
-  discord: ""
-  twitter: ""
-  github: ""
+  discord: "https://discord.gg/your-discord"
+  twitter: "https://twitter.com/yourhandle"
+  github: "https://github.com/devvyyxyz"
+  modrinth: "https://modrinth.com/organization/abcxyz"

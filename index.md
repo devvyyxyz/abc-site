@@ -7,18 +7,17 @@ description: Browse curated Minecraft mods, resource packs, datapacks, modpacks 
 <section class="hero">
   <div class="hero-card">
     <h1>Showcase: Minecraft Mods & Packs</h1>
-    <p class="muted">Mods, resource packs, datapacks, modpacks and plugins — neatly showcased.</p>
+    <p class="muted">Mods, resource packs, datapacks, modpacks and plugins — curated from our organization.</p>
     <div class="cta-row">
-      <a class="btn primary" href="#modpacks">Browse Modpacks</a>
-      <a class="btn ghost" href="/mods/">See Mods</a>
-      <button class="btn ghost" id="notify-sample">Show Notification</button>
+      <a class="btn primary" href="/mods/">Browse Projects</a>
+      <a class="btn ghost" href="/about/">Learn More</a>
     </div>
   </div>
 </section>
 
-<section id="modpacks" class="section">
-  <h2>Featured Projects</h2>
-  <p class="muted">Add projects by creating <code>_data/modpacks.json</code> with your content.</p>
+<section id="featured" class="section">
+  <h2>Featured Highlights</h2>
+  <p class="muted">Latest additions to our growing collection</p>
   
   {% include modpacks.html %}
 </section>

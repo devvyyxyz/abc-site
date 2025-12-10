@@ -1,12 +1,19 @@
 :root{
-  /* Clean, minimal theme */
-  --bg:#ffffff;
-  --card:#f9f9f9;
-  --border:#e5e5e5;
-  --text:#000000;
-  --muted:#666666;
-  --accent:#0066cc;
-  --radius:8px;
+  /* Modrinth-inspired dark theme */
+  --bg:#0d0d0d;
+  --bg-secondary:#1a1a1a;
+  --card:#1f1f1f;
+  --border:#2a2a2a;
+  --text:#ffffff;
+  --text-secondary:#b0b0b0;
+  --muted:#808080;
+  --accent-primary:#1bd96f;
+  --accent-secondary:#3d2817;
+  --accent-tertiary:#ffd93d;
+  --accent-blue:#0066cc;
+  --gradient-primary:linear-gradient(135deg, #1bd96f 0%, #15a853 100%);
+  --gradient-secondary:linear-gradient(135deg, #1bd96f 0%, #0066cc 100%);
+  --radius:6px;
 }
 *{box-sizing:border-box}
 html,body{
@@ -21,6 +28,7 @@ body{
   background:var(--bg);
   color:var(--text);
   -webkit-font-smoothing:antialiased;
+  transition:background 0.3s ease;
 }
 main{
   flex:1;
