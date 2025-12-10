@@ -1,0 +1,6 @@
+<svg viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
+  <!-- Simple blue square favicon -->
+  <rect width="256" height="256" fill="#0066cc"/>
+  <!-- Letter A in white -->
+  <text x="128" y="180" font-size="180" font-weight="bold" text-anchor="middle" fill="white" font-family="Arial, sans-serif">A</text>
+</svg>

@@ -1,0 +1,31 @@
+<svg viewBox="0 0 1034 256" xmlns="http://www.w3.org/2000/svg">
+  <!-- Red block (A) -->
+  <g id="red-block">
+    <!-- Top face -->
+    <polygon points="92,64 184,32 276,64 184,96" fill="#FF6B6B"/>
+    <!-- Left face -->
+    <polygon points="92,64 92,192 184,224 184,96" fill="#CC3333"/>
+    <!-- Right face -->
+    <polygon points="184,96 184,224 276,192 276,64" fill="#FF8888"/>
+  </g>
+
+  <!-- Green block (E) -->
+  <g id="green-block">
+    <!-- Top face -->
+    <polygon points="380,64 472,32 564,64 472,96" fill="#4CAF50"/>
+    <!-- Left face -->
+    <polygon points="380,64 380,192 472,224 472,96" fill="#228B22"/>
+    <!-- Right face -->
+    <polygon points="472,96 472,224 564,192 564,64" fill="#66BB6A"/>
+  </g>
+
+  <!-- Yellow block (C) -->
+  <g id="yellow-block">
+    <!-- Top face -->
+    <polygon points="668,64 760,32 852,64 760,96" fill="#FFD700"/>
+    <!-- Left face -->
+    <polygon points="668,64 668,192 760,224 760,96" fill="#DAA520"/>
+    <!-- Right face -->
+    <polygon points="760,96 760,224 852,192 852,64" fill="#FFED4E"/>
+  </g>
+</svg>
