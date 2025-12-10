@@ -1,0 +1,56 @@
+<!-- Theme Toggle -->
+<div class="theme-toggle" id="theme-toggle" title="Toggle dark/light mode">
+  <button id="theme-dark" class="active" aria-label="Dark mode" title="Dark mode">
+    <i class="fa-solid fa-moon"></i>
+  </button>
+  <button id="theme-light" aria-label="Light mode" title="Light mode">
+    <i class="fa-solid fa-sun"></i>
+  </button>
+</div>
+
+<script>
+  // Theme toggle functionality
+  const themeToggle = {
+    init() {
+      this.darkBtn = document.getElementById('theme-dark');
+      this.lightBtn = document.getElementById('theme-light');
+      this.html = document.documentElement;
+
+      // Load saved theme or use system preference
+      const saved = localStorage.getItem('theme');
+      const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const theme = saved || (systemDark ? 'dark' : 'light');
+
+      this.setTheme(theme);
+
+      // Listen for changes
+      this.darkBtn.addEventListener('click', () => this.setTheme('dark'));
+      this.lightBtn.addEventListener('click', () => this.setTheme('light'));
+
+      // Listen for system theme changes
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+        if (!localStorage.getItem('theme')) {
+          this.setTheme(e.matches ? 'dark' : 'light');
+        }
+      });
+    },
+
+    setTheme(theme) {
+      this.html.setAttribute('data-theme', theme);
+      localStorage.setItem('theme', theme);
+
+      this.darkBtn.classList.toggle('active', theme === 'dark');
+      this.lightBtn.classList.toggle('active', theme === 'light');
+
+      // Update meta theme-color
+      const color = theme === 'dark' ? '#1bd96f' : '#1bd96f';
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', color);
+    }
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => themeToggle.init());
+  } else {
+    themeToggle.init();
+  }
+</script>

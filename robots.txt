@@ -1,0 +1,15 @@
+User-agent: *
+Allow: /
+
+Sitemap: {{ site.url }}/sitemap.xml
+
+# Delay for aggressive crawlers
+User-agent: AhrefsBot
+User-agent: SemrushBot
+User-agent: DotBot
+Disallow: /
+
+# Allow search engines
+User-agent: Googlebot
+User-agent: Bingbot
+Allow: /

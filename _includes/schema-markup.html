@@ -1,0 +1,86 @@
+<!-- Schema.org JSON-LD -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "{{ site.site.name }}",
+  "description": "{{ site.site.description }}",
+  "url": "{{ site.url }}",
+  "logo": "{{ site.site.logo | absolute_url }}",
+  "sameAs": [
+    "{{ site.social.github }}",
+    "{{ site.social.twitter }}",
+    "{{ site.social.discord }}"
+  ],
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "contactType": "Community Support",
+    "url": "{{ site.social.discord }}"
+  }
+}
+</script>
+
+<!-- Breadcrumb Schema -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "{{ site.url | default: site.baseurl }}"
+    }
+    {% unless page.url == "/" %}
+    , {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "{{ page.title }}",
+      "item": "{{ page.url | absolute_url }}"
+    }
+    {% endunless %}
+  ]
+}
+</script>
+
+<!-- Article/Page Schema -->
+{% if page.date %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "{{ page.title }}",
+  "description": "{{ page.description | default: page.excerpt }}",
+  "image": "{{ page.image | absolute_url }}",
+  "datePublished": "{{ page.date | date_to_xmlschema }}",
+  "dateModified": "{{ page.modified_date | default: page.date | date_to_xmlschema }}",
+  "author": {
+    "@type": "Organization",
+    "name": "{{ site.site.name }}"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "{{ site.site.name }}",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "{{ site.site.logo | absolute_url }}"
+    }
+  }
+}
+</script>
+{% else %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "{{ page.title }}",
+  "description": "{{ page.description }}",
+  "url": "{{ page.url | absolute_url }}",
+  "publisher": {
+    "@type": "Organization",
+    "name": "{{ site.site.name }}"
+  }
+}
+</script>
+{% endif %}

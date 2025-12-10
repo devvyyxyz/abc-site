@@ -1,0 +1,165 @@
+/* Enhanced animations and transitions */
+
+/* Scroll reveal animation */
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Fade in */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Smooth page transitions */
+.page-transition {
+  animation: fadeIn 0.4s ease-in-out;
+}
+
+/* Stat counter animation */
+@keyframes countUp {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.stat-card {
+  animation: slideInUp 0.5s ease-out forwards;
+  opacity: 0;
+}
+
+.stat-card:nth-child(1) { animation-delay: 0.1s; }
+.stat-card:nth-child(2) { animation-delay: 0.15s; }
+.stat-card:nth-child(3) { animation-delay: 0.2s; }
+.stat-card:nth-child(4) { animation-delay: 0.25s; }
+
+/* Smooth number counting (for when stats load) */
+.stat-number {
+  transition: all 0.3s ease-out;
+}
+
+/* Button ripple effect */
+.btn {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.btn:active::before {
+  width: 300px;
+  height: 300px;
+}
+
+/* Smooth scroll behavior */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Focus visible for accessibility */
+*:focus-visible {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: 2px;
+}
+
+/* Link hover underline animation */
+a {
+  position: relative;
+  transition: color 0.2s ease;
+}
+
+/* Card stagger animation */
+.card {
+  animation: slideInUp 0.6s ease-out backwards;
+}
+
+.section .card:nth-child(1) { animation-delay: 0s; }
+.section .card:nth-child(2) { animation-delay: 0.1s; }
+.section .card:nth-child(3) { animation-delay: 0.2s; }
+.section .card:nth-child(4) { animation-delay: 0.3s; }
+
+/* Scroll-to-top button animation */
+.scroll-to-top {
+  position: fixed;
+  bottom: 32px;
+  right: 24px;
+  width: 48px;
+  height: 48px;
+  background: var(--accent-primary);
+  color: #000000;
+  border: 0;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.3s ease;
+  z-index: 50;
+  font-size: 18px;
+  box-shadow: 0 4px 12px rgba(27, 217, 111, 0.3);
+}
+
+.scroll-to-top.visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.scroll-to-top:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 20px rgba(27, 217, 111, 0.5);
+}
+
+.scroll-to-top:active {
+  transform: translateY(-2px);
+}
+
+/* Skeleton loading animation */
+.skeleton {
+  background: linear-gradient(90deg, var(--bg-secondary) 25%, rgba(255,255,255,0.1) 50%, var(--bg-secondary) 75%);
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.5s infinite;
+}
+
+@keyframes skeleton-loading {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Text focus styles */
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: 2px;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

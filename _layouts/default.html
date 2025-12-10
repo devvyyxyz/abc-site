@@ -35,6 +35,15 @@
     <link rel="stylesheet" href="{{ '/assets/css/components.css' | relative_url }}">
     <link rel="stylesheet" href="{{ '/assets/css/modpacks.css' | relative_url }}">
     <link rel="stylesheet" href="{{ '/assets/css/loading.css' | relative_url }}">
+    <link rel="stylesheet" href="{{ '/assets/css/animations.css' | relative_url }}">
+    <link rel="stylesheet" href="{{ '/assets/css/theme.css' | relative_url }}">
+    <link rel="stylesheet" href="{{ '/assets/css/a11y.css' | relative_url }}">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="{{ page.url | absolute_url }}">
+
+    <!-- Schema Markup -->
+    {% include schema-markup.html %}
 
     <!-- Preloader Script (critical, inline) -->
     <script>
@@ -68,15 +77,18 @@
     </script>
   </head>
   <body>
+    <a href="#main" class="skip-to-main">Skip to main content</a>
     {% include nav.html %}
 
-    <main class="container">
+    <main id="main" class="container">
       {{ content }}
     </main>
 
     {% include footer.html %}
+    {% include enhancements.html %}
 
     <!-- Scripts -->
     <script src="{{ '/assets/js/search.js' | relative_url }}"></script>
+    <script src="{{ '/assets/js/performance.js' | relative_url }}"></script>
   </body>
 </html>

@@ -1,0 +1,115 @@
+/* Accessibility & a11y improvements */
+
+/* Skip to main content link (visible on focus) */
+.skip-to-main {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: var(--accent-primary);
+  color: #000000;
+  padding: 8px 16px;
+  z-index: 9998;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.skip-to-main:focus {
+  top: 0;
+}
+
+/* ARIA live region styles */
+[role="alert"],
+[role="status"] {
+  position: relative;
+}
+
+/* Focus management */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: 2px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: more) {
+  :root {
+    --border: #4a4a4a;
+  }
+
+  .btn.ghost {
+    border-width: 2px;
+  }
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Forced colors mode support */
+@media (forced-colors: active) {
+  .btn {
+    border: 1px solid;
+  }
+
+  .card {
+    border-width: 2px;
+  }
+}
+
+/* Heading hierarchy */
+h1 {
+  font-size: clamp(32px, 6vw, 48px);
+}
+
+h2 {
+  font-size: clamp(24px, 4vw, 32px);
+}
+
+h3 {
+  font-size: clamp(18px, 3vw, 24px);
+}
+
+/* Link aria-label visibility */
+[aria-label] {
+  position: relative;
+}
+
+/* Form labels */
+label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: var(--text);
+}
+
+input[type="text"],
+input[type="search"],
+select {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+/* Touch target size (44x44 minimum) */
+button,
+a[role="button"],
+input[type="button"],
+input[type="submit"] {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+/* Color contrast */
+.muted {
+  /* Ensure sufficient contrast */
+  color: var(--text-secondary);
+}

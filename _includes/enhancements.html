@@ -1,0 +1,74 @@
+<!-- Scroll to top button -->
+<button id="scroll-to-top" class="scroll-to-top" aria-label="Scroll to top" title="Back to top">
+  <i class="fa-solid fa-chevron-up"></i>
+</button>
+
+<script>
+  // Scroll to top functionality
+  const scrollButton = document.getElementById('scroll-to-top');
+
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 300) {
+      scrollButton.classList.add('visible');
+    } else {
+      scrollButton.classList.remove('visible');
+    }
+  });
+
+  scrollButton.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  // Handle keyboard interaction
+  scrollButton.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  });
+</script>
+
+<!-- Lazy loading images with placeholder -->
+<script>
+  // Intersection Observer for lazy loading
+  if ('IntersectionObserver' in window) {
+    const imageObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const img = entry.target;
+          img.src = img.dataset.src || img.src;
+          img.classList.remove('lazy');
+          observer.unobserve(img);
+        }
+      });
+    }, {
+      rootMargin: '50px 0px',
+      threshold: 0.01
+    });
+
+    document.querySelectorAll('img[data-src]').forEach(img => {
+      imageObserver.observe(img);
+    });
+  }
+</script>
+
+<!-- Smooth page transitions -->
+<script>
+  // Add page transition class on load
+  document.addEventListener('DOMContentLoaded', () => {
+    document.body.classList.add('page-transition');
+  });
+
+  // Handle link clicks for smooth transitions
+  document.addEventListener('click', (e) => {
+    const link = e.target.closest('a');
+    if (link && !link.target && link.hostname === window.location.hostname) {
+      // Internal link - add transition
+      e.preventDefault();
+      document.body.style.opacity = '0.8';
+      setTimeout(() => {
+        window.location.href = link.href;
+      }, 150);
+    }
+  });
+</script>

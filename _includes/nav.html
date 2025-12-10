@@ -1,8 +1,8 @@
 <header class="floating-nav">
   <div class="nav-inner">
-    <a class="logo" href="{{ '/' | relative_url }}" style="display:flex;align-items:center;gap:8px">
-      <img src="{{ site.site.logo | relative_url }}" alt="Logo" style="height:32px;width:auto">
-      <span>{{ site.site.name }}</span>
+    <a class="logo" href="{{ '/' | relative_url }}" style="display:flex;align-items:center;gap:8px" aria-label="{{ site.site.name }}">
+      <img src="{{ site.site.logo | relative_url }}" alt="{{ site.site.name }}" style="height:32px;width:auto">
+      {% unless site.site.logo %}<span>{{ site.site.name }}</span>{% endunless %}
     </a>
     <nav class="links">
       <a href="{{ '/' | relative_url }}">Home</a>
@@ -13,6 +13,7 @@
     </nav>
     <div class="nav-actions">
       <div id="social-links-nav" style="display:flex;gap:6px;align-items:center"></div>
+      {% include theme-controls.html %}
     </div>
   </div>
 </header>
