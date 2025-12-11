@@ -36,6 +36,7 @@ layout: default
       gap: 24px;
       align-items: flex-start;
       margin-bottom: 40px;
+      flex-wrap: wrap;
     "
   >
     <img
@@ -49,13 +50,17 @@ layout: default
         object-fit: cover;
       "
     />
-    <div style="flex: 1">
-      <h1 style="margin: 0 0 8px 0">{{ page.title }}</h1>
+    <div style="flex: 1; min-width: 0">
+      <h1 style="margin: 0 0 8px 0; word-break: break-word">
+        {{ page.title }}
+      </h1>
       <p
         style="
           margin: 0 0 16px 0;
           color: var(--text-secondary);
           font-size: 16px;
+          line-height: 1.5;
+          word-break: break-word;
         "
       >
         {{ page.description }}
@@ -88,12 +93,13 @@ layout: default
         {% endfor %} {% endif %}
       </div>
 
-      <div style="display: flex; gap: 12px">
+      <div style="display: flex; gap: 12px; flex-wrap: wrap">
         <a
           href="{{ page.project_url }}"
           class="btn primary"
           target="_blank"
           rel="noopener"
+          style="white-space: nowrap"
         >
           <i class="fas fa-external-link-alt"></i> View on Modrinth
         </a>
@@ -103,6 +109,7 @@ layout: default
           class="btn ghost"
           target="_blank"
           rel="noopener"
+          style="white-space: nowrap"
         >
           <i class="fab fa-github"></i> Source Code
         </a>
@@ -113,10 +120,131 @@ layout: default
 
   <div class="card" style="margin-bottom: 24px">
     <h2 style="margin-top: 0">About</h2>
-    <p>{{ page.description }}</p>
-    {% if page.long_description %} {{ page.long_description | markdownify }} {%
-    endif %}
+    <p
+      style="
+        word-break: break-word;
+        line-height: 1.6;
+        color: var(--text-secondary);
+      "
+    >
+      {{ page.description }}
+    </p>
+    {% if page.long_description %}
+    <div
+      style="
+        word-break: break-word;
+        line-height: 1.8;
+        color: var(--text);
+        margin-top: 16px;
+      "
+      class="markdown-content"
+    >
+      {{ page.long_description | markdownify }}
+    </div>
+    {% endif %}
   </div>
+
+  <style>
+    .markdown-content h1,
+    .markdown-content h2,
+    .markdown-content h3,
+    .markdown-content h4,
+    .markdown-content h5,
+    .markdown-content h6 {
+      margin: 16px 0 8px 0;
+      color: var(--text);
+    }
+
+    .markdown-content h2 {
+      font-size: 20px;
+      margin-top: 24px;
+      padding-top: 12px;
+      border-top: 1px solid var(--border);
+    }
+
+    .markdown-content h3 {
+      font-size: 18px;
+    }
+
+    .markdown-content p {
+      margin: 0 0 12px 0;
+      line-height: 1.8;
+    }
+
+    .markdown-content ul,
+    .markdown-content ol {
+      margin: 12px 0;
+      padding-left: 24px;
+    }
+
+    .markdown-content li {
+      margin: 6px 0;
+      line-height: 1.6;
+    }
+
+    .markdown-content code {
+      background: var(--bg-secondary);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: "Courier New", monospace;
+      font-size: 13px;
+    }
+
+    .markdown-content pre {
+      background: var(--bg-secondary);
+      padding: 12px;
+      border-radius: 6px;
+      overflow-x: auto;
+      margin: 12px 0;
+    }
+
+    .markdown-content pre code {
+      background: none;
+      padding: 0;
+    }
+
+    .markdown-content blockquote {
+      border-left: 3px solid var(--accent);
+      padding-left: 12px;
+      margin: 12px 0;
+      color: var(--text-secondary);
+      font-style: italic;
+    }
+
+    .markdown-content a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    .markdown-content a:hover {
+      text-decoration: underline;
+    }
+
+    .markdown-content img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 6px;
+      margin: 12px 0;
+    }
+
+    .markdown-content table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 12px 0;
+    }
+
+    .markdown-content th,
+    .markdown-content td {
+      border: 1px solid var(--border);
+      padding: 8px 12px;
+      text-align: left;
+    }
+
+    .markdown-content th {
+      background: var(--bg-secondary);
+      font-weight: 600;
+    }
+  </style>
 
   {% if page.categories and page.categories.size > 0 %}
   <div class="card" style="margin-bottom: 24px">
@@ -132,7 +260,7 @@ layout: default
   <div
     style="
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
       gap: 16px;
       margin-bottom: 24px;
     "
@@ -149,7 +277,14 @@ layout: default
       >
         Downloads
       </h4>
-      <div style="font-size: 28px; font-weight: 700; margin-bottom: 4px">
+      <div
+        style="
+          font-size: 28px;
+          font-weight: 700;
+          margin-bottom: 4px;
+          word-break: break-word;
+        "
+      >
         {{ page.downloads | default: 0 | divided_by: 1000 }}K
       </div>
       <p style="margin: 0; font-size: 13px; color: var(--text-secondary)">
@@ -169,7 +304,14 @@ layout: default
       >
         Followers
       </h4>
-      <div style="font-size: 28px; font-weight: 700; margin-bottom: 4px">
+      <div
+        style="
+          font-size: 28px;
+          font-weight: 700;
+          margin-bottom: 4px;
+          word-break: break-word;
+        "
+      >
         {{ page.followers | default: 0 }}
       </div>
       <p style="margin: 0; font-size: 13px; color: var(--text-secondary)">
@@ -190,7 +332,14 @@ layout: default
       >
         Last Updated
       </h4>
-      <div style="font-size: 16px; font-weight: 600; margin-bottom: 4px">
+      <div
+        style="
+          font-size: 16px;
+          font-weight: 600;
+          margin-bottom: 4px;
+          word-break: break-word;
+        "
+      >
         {{ page.updated | date: '%b %d, %Y' }}
       </div>
       <p style="margin: 0; font-size: 13px; color: var(--text-secondary)">
