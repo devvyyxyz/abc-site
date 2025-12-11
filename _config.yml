@@ -13,6 +13,8 @@ exclude:
   - Gemfile
   - Gemfile.lock
   - vendor/
+  - node_modules/
+  - src/
 
 # Site URLs
 url: https://devvyyxyz.github.io

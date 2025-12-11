@@ -5,6 +5,13 @@ description: Browse our projects from Modrinth.
 permalink: /projects/
 ---
 
+<section class="hero">
+  <div class="hero-card">
+    <h1>Browse All Projects</h1>
+    <p class="muted">Explore our curated collection of mods, resource packs, datapacks, modpacks, and plugins.</p>
+  </div>
+</section>
+
 <section class="section">
   <h1>Projects</h1>
   <p class="muted">Latest projects from ABC organization</p>
@@ -136,16 +143,41 @@ permalink: /projects/
         meta.innerHTML = `
           <h3>${m.title || m.name}</h3>
           <p>${desc}</p>
-          <div class="meta-info">${metaInfo}</div>
-          <div class="tags">${(m.display_categories || m.categories || []).slice(0, 4).map(c => `<span class="pill">#${c}</span>`).join(' ')}</div>
         `;
+
+        const pillSection = document.createElement('div');
+        pillSection.className = 'pill-section';
+        const metaInfoHTML = [
+          m.updated || m.published ? pill(`Updated ${formatDate(m.updated || m.published)}`, 'clock') : '',
+          versions.length ? pill(`MC ${versions.join(', ')}`, 'cube') : '',
+          loaders.length ? pill(`Loaders: ${loaders.join(', ')}`, 'cogs') : '',
+          m.license_id ? pill(`License: ${m.license_id}`, 'file-alt') : ''
+        ].filter(Boolean).join('');
+        
+        const categoriesHTML = (m.display_categories || m.categories || []).slice(0, 4).map(c => `<span class="pill">#${c}</span>`).join(' ');
+        
+        pillSection.innerHTML = `${metaInfoHTML} ${categoriesHTML}`;
 
         const action = document.createElement('div');
         action.className = 'actions';
-        action.innerHTML = `<a class="btn primary" href="${m.download || `https://modrinth.com/mod/${m.slug}`}" target="_blank" rel="noopener">View</a>`;
+        
+        // Check if source_url exists (GitHub link)
+        const sourceUrl = m.source_url || m.repository;
+        const hasBothButtons = sourceUrl && m.download;
+        
+        let buttonsHTML = '';
+        if (sourceUrl) {
+          buttonsHTML += `<a class="btn secondary" href="${sourceUrl}" target="_blank" rel="noopener" title="View source"><i class="fa-brands fa-github"></i></a>`;
+        }
+        
+        // View button takes full width if no source, otherwise shares space
+        buttonsHTML += `<a class="btn primary" href="${m.download || `https://modrinth.com/mod/${m.slug}`}" target="_blank" rel="noopener">View</a>`;
+        
+        action.innerHTML = buttonsHTML;
 
         el.appendChild(thumb);
         el.appendChild(meta);
+        el.appendChild(pillSection);
         el.appendChild(action);
         container.appendChild(el);
       });
