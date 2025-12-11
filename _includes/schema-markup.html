@@ -1,119 +1,119 @@
 <!-- Schema.org JSON-LD -->
 <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  "name": "{{ site.site.name }}",
-  "description": "{{ site.site.description }}",
-  "url": "{{ site.url }}",
-  "logo": "{{ site.site.logo | absolute_url }}",
-  "sameAs": [
-    "{{ site.social.github }}",
-    "{{ site.social.twitter }}",
-    "{{ site.social.discord }}"
-  ],
-  "contactPoint": {
-    "@type": "ContactPoint",
-    "contactType": "Community Support",
-    "url": "{{ site.social.discord }}"
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "{{ site.site.name }}",
+    "description": "{{ site.site.description }}",
+    "url": "{{ site.url }}",
+    "logo": "{{ site.site.logo | absolute_url }}",
+    "sameAs": [
+      "{{ site.social.github }}",
+      "{{ site.social.twitter }}",
+      "{{ site.social.discord }}"
+    ],
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "contactType": "Community Support",
+      "url": "{{ site.social.discord }}"
+    }
   }
-}
 </script>
 
 <!-- Breadcrumb Schema -->
 <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    {
-      "@type": "ListItem",
-      "position": 1,
-      "name": "Home",
-      "item": "{{ site.url | default: site.baseurl }}"
-    }
-    {% unless page.url == "/" %}
-    , {
-      "@type": "ListItem",
-      "position": 2,
-      "name": "{{ page.title }}",
-      "item": "{{ page.url | absolute_url }}"
-    }
-    {% endunless %}
-  ]
-}
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "{{ site.url | default: site.baseurl }}"
+      }
+      {% unless page.url == "/" %}
+      , {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "{{ page.title }}",
+        "item": "{{ page.url | absolute_url }}"
+      }
+      {% endunless %}
+    ]
+  }
 </script>
 
 <!-- Project/Software Application Schema (for project pages) -->
 {% if page.downloads and page.followers %}
 <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
-  "name": "{{ page.title }}",
-  "description": "{{ page.description }}",
-  "url": "{{ page.project_url | default: page.url | absolute_url }}",
-  "image": "{{ page.icon_url | absolute_url }}",
-  "applicationCategory": "Utility",
-  "operatingSystem": "Windows, macOS, Linux",
-  "author": {
-    "@type": "Organization",
-    "name": "{{ site.site.name }}"
-  },
-  "offers": {
-    "@type": "Offer",
-    "price": "0",
-    "priceCurrency": "USD"
-  },
-  "aggregateRating": {
-    "@type": "AggregateRating",
-    "ratingValue": "5",
-    "ratingCount": "{{ page.followers | default: 1 }}"
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "{{ page.title }}",
+    "description": "{{ page.description }}",
+    "url": "{{ page.project_url | default: page.url | absolute_url }}",
+    "image": "{{ page.icon_url | absolute_url }}",
+    "applicationCategory": "Utility",
+    "operatingSystem": "Windows, macOS, Linux",
+    "author": {
+      "@type": "Organization",
+      "name": "{{ site.site.name }}"
+    },
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "5",
+      "ratingCount": "{{ page.followers | default: 1 }}"
+    }
   }
-}
 </script>
 <!-- Article/Page Schema -->
 {% elsif page.date %}
 <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Article",
-  "headline": "{{ page.title }}",
-  "description": "{{ page.description | default: page.excerpt }}",
-  "image": "{{ page.image | absolute_url }}",
-  "datePublished": "{{ page.date | date_to_xmlschema }}",
-  "dateModified": "{{ page.modified_date | default: page.date | date_to_xmlschema }}",
-  "author": {
-    "@type": "Organization",
-    "name": "{{ site.site.name }}"
-  },
-  "publisher": {
-    "@type": "Organization",
-    "name": "{{ site.site.name }}",
-    "logo": {
-      "@type": "ImageObject",
-      "url": "{{ site.site.logo | absolute_url }}"
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "{{ page.title }}",
+    "description": "{{ page.description | default: page.excerpt }}",
+    "image": "{{ page.image | absolute_url }}",
+    "datePublished": "{{ page.date | date_to_xmlschema }}",
+    "dateModified": "{{ page.modified_date | default: page.date | date_to_xmlschema }}",
+    "author": {
+      "@type": "Organization",
+      "name": "{{ site.site.name }}"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "{{ site.site.name }}",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "{{ site.site.logo | absolute_url }}"
+      }
     }
   }
-}
 </script>
 <!-- WebPage Schema -->
 {% else %}
 <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "WebPage",
-  "name": "{{ page.title }}",
-  "description": "{{ page.description }}",
-  "url": "{{ page.url | absolute_url }}",
-  "publisher": {
-    "@type": "Organization",
-    "name": "{{ site.site.name }}",
-    "logo": {
-      "@type": "ImageObject",
-      "url": "{{ site.site.logo | absolute_url }}"
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "{{ page.title }}",
+    "description": "{{ page.description }}",
+    "url": "{{ page.url | absolute_url }}",
+    "publisher": {
+      "@type": "Organization",
+      "name": "{{ site.site.name }}",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "{{ site.site.logo | absolute_url }}"
+      }
     }
   }
-}
 </script>
 {% endif %}

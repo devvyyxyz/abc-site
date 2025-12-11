@@ -121,12 +121,20 @@ permalink: /projects/
         el.className = 'modpack';
         el.style.animationDelay = (i * 60) + 'ms';
 
+        // Generate project slug for detail page link
+        const slug = (m.slug || m.title.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, ''));
+        const detailPageUrl = `/abc-site/projects/${slug}/`;
+
         const thumb = document.createElement('div');
         thumb.className = 'thumb';
         thumb.style.backgroundImage = `url(${m.icon_url || m.thumbnail || '/assets/images/favicon.svg'})`;
+        thumb.style.cursor = 'pointer';
+        thumb.addEventListener('click', () => window.location.href = detailPageUrl);
 
         const meta = document.createElement('div');
         meta.className = 'meta';
+        meta.style.cursor = 'pointer';
+        meta.addEventListener('click', () => window.location.href = detailPageUrl);
         const shortDesc = m.short_description || m.summary || m.description || '';
         const desc = shortDesc.length > 160 ? `${shortDesc.substring(0, 160)}...` : shortDesc;
         const versions = (m.game_versions || []).slice(-3).reverse();
@@ -163,15 +171,13 @@ permalink: /projects/
         
         // Check if source_url exists (GitHub link)
         const sourceUrl = m.source_url || m.repository;
-        const hasBothButtons = sourceUrl && m.download;
         
         let buttonsHTML = '';
+        buttonsHTML += `<a class="btn primary" href="${detailPageUrl}" title="View details">Details</a>`;
         if (sourceUrl) {
           buttonsHTML += `<a class="btn secondary" href="${sourceUrl}" target="_blank" rel="noopener" title="View source"><i class="fa-brands fa-github"></i></a>`;
         }
-        
-        // View button takes full width if no source, otherwise shares space
-        buttonsHTML += `<a class="btn primary" href="${m.download || `https://modrinth.com/mod/${m.slug}`}" target="_blank" rel="noopener">View</a>`;
+        buttonsHTML += `<a class="btn ghost" href="${m.download || `https://modrinth.com/mod/${m.slug}`}" target="_blank" rel="noopener">View</a>`;
         
         action.innerHTML = buttonsHTML;
 

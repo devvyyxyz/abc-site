@@ -8,7 +8,12 @@
     "generate-projects": "node scripts/generate-projects.js",
     "dev": "cd src/pages && python3 -m http.server 8000"
   },
-  "keywords": ["minecraft", "modpacks", "showcase", "static"],
+  "keywords": [
+    "minecraft",
+    "modpacks",
+    "showcase",
+    "static"
+  ],
   "author": "",
   "license": "MIT",
   "dependencies": {
