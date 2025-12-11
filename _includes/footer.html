@@ -1,30 +1,290 @@
 <footer class="floating-footer">
   <div class="footer-inner">
-    <div>
-      <h4 style="margin:0 0 16px;font-size:18px;font-weight:700;color:var(--text)">{{ site.site.name }}</h4>
-      <p style="margin:0;font-size:13px;color:var(--text-secondary);max-width:320px;line-height:1.6">{{ site.site.description }}</p>
+    <div style="display: flex; gap: 16px; align-items: flex-start">
+      <img
+        src="{{ site.site.logo | relative_url }}"
+        alt="{{ site.site.name }} logo"
+        style="width: 64px; height: 64px; flex-shrink: 0"
+      />
+      <div style="display: flex; flex-direction: column; gap: 8px">
+        <div>
+          <h4
+            style="
+              margin: 0;
+              font-size: 18px;
+              font-weight: 700;
+              color: var(--text);
+            "
+          >
+            {{ site.site.name }}
+          </h4>
+          <p
+            style="
+              margin: 2px 0 0 0;
+              font-size: 12px;
+              color: var(--text-secondary);
+            "
+          >
+            Established {{ site.time | default: site.time | date: '%Y' |
+            default: '2025' }}
+          </p>
+        </div>
+        <p
+          style="
+            margin: 0;
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+          "
+        >
+          {{ site.site.description }}
+        </p>
+      </div>
     </div>
-    <div style="display:flex;gap:48px">
+    <div style="display: flex; gap: 48px">
       <div>
-        <h4 style="margin:0 0 16px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text)">Links</h4>
-        <div style="display:flex;flex-direction:column;gap:10px;font-size:13px">
-          <a href="{{ '/' | relative_url }}" style="color:var(--text-secondary);text-decoration:none;transition:color 0.2s">Home</a>
-          <a href="{{ '/about/' | relative_url }}" style="color:var(--text-secondary);text-decoration:none;transition:color 0.2s">About</a>
-          <a href="{{ '/docs/' | relative_url }}" style="color:var(--text-secondary);text-decoration:none;transition:color 0.2s">Docs</a>
-          <a href="{{ '/projects/' | relative_url }}" style="color:var(--text-secondary);text-decoration:none;transition:color 0.2s">Projects</a>
+        <h4
+          style="
+            margin: 0 0 16px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text);
+          "
+        >
+          Links
+        </h4>
+        <div
+          style="
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 10px 12px;
+            font-size: 13px;
+            max-width: 320px;
+          "
+        >
+          <a
+            href="{{ '/' | relative_url }}"
+            style="
+              color: var(--text-secondary);
+              text-decoration: none;
+              transition: color 0.2s;
+            "
+            >Home</a
+          >
+          <a
+            href="{{ '/about/' | relative_url }}"
+            style="
+              color: var(--text-secondary);
+              text-decoration: none;
+              transition: color 0.2s;
+            "
+            >About</a
+          >
+          <a
+            href="{{ '/docs/' | relative_url }}"
+            style="
+              color: var(--text-secondary);
+              text-decoration: none;
+              transition: color 0.2s;
+            "
+            >Docs</a
+          >
+          <a
+            href="{{ '/projects/' | relative_url }}"
+            style="
+              color: var(--text-secondary);
+              text-decoration: none;
+              transition: color 0.2s;
+            "
+            >Projects</a
+          >
+          <a
+            href="{{ '/compare/' | relative_url }}"
+            style="
+              color: var(--text-secondary);
+              text-decoration: none;
+              transition: color 0.2s;
+            "
+            >Compare</a
+          >
+          <a
+            href="{{ '/changelog/' | relative_url }}"
+            style="
+              color: var(--text-secondary);
+              text-decoration: none;
+              transition: color 0.2s;
+            "
+            >Changelog</a
+          >
+          <a
+            href="{{ site.modrinth.organization_url | default: site.social.modrinth }}"
+            style="
+              color: var(--text-secondary);
+              text-decoration: none;
+              transition: color 0.2s;
+            "
+            target="_blank"
+            rel="noopener"
+            >Modrinth Org</a
+          >
+          <a
+            href="{{ site.social.github | default: 'https://github.com/devvyyxyz' }}"
+            style="
+              color: var(--text-secondary);
+              text-decoration: none;
+              transition: color 0.2s;
+            "
+            target="_blank"
+            rel="noopener"
+            >GitHub Org</a
+          >
+          <a
+            href="{{ site.links.sitemap | default: '/sitemap.xml' | relative_url }}"
+            style="
+              color: var(--text-secondary);
+              text-decoration: none;
+              transition: color 0.2s;
+            "
+            >Sitemap</a
+          >
+          <a
+            href="{{ site.links.rss | default: '/feed.xml' | relative_url }}"
+            style="
+              color: var(--text-secondary);
+              text-decoration: none;
+              transition: color 0.2s;
+            "
+            >RSS Feed</a
+          >
         </div>
       </div>
       <div>
-        <h4 style="margin:0 0 16px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text)">Community</h4>
-        <div id="social-links-footer" style="display:flex;gap:12px;flex-direction:column"></div>
+        <h4
+          style="
+            margin: 0 0 16px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text);
+          "
+        >
+          Help
+        </h4>
+        <div
+          style="
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 10px 12px;
+            font-size: 13px;
+            max-width: 320px;
+          "
+        >
+          <a
+            href="{{ '/contact/' | relative_url }}"
+            style="
+              color: var(--text-secondary);
+              text-decoration: none;
+              transition: color 0.2s;
+            "
+            >Contact</a
+          >
+          <a
+            href="{{ '/docs/faq/' | relative_url }}"
+            style="
+              color: var(--text-secondary);
+              text-decoration: none;
+              transition: color 0.2s;
+            "
+            >FAQ</a
+          >
+          <a
+            href="{{ '/docs/troubleshooting/' | relative_url }}"
+            style="
+              color: var(--text-secondary);
+              text-decoration: none;
+              transition: color 0.2s;
+            "
+            >Troubleshooting</a
+          >
+          <a
+            href="{{ '/docs/contributing/' | relative_url }}"
+            style="
+              color: var(--text-secondary);
+              text-decoration: none;
+              transition: color 0.2s;
+            "
+            >Contributing</a
+          >
+          <a
+            href="{{ site.links.status_url | default: '/status/' | relative_url }}"
+            style="
+              color: var(--text-secondary);
+              text-decoration: none;
+              transition: color 0.2s;
+            "
+            >Status</a
+          >
+        </div>
+      </div>
+      <div>
+        <h4
+          style="
+            margin: 0 0 16px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text);
+          "
+        >
+          Community
+        </h4>
+        <div
+          id="social-links-footer"
+          style="display: flex; gap: 12px; flex-direction: column"
+        ></div>
       </div>
     </div>
   </div>
-  <div style="border-top:1px solid var(--border);margin-top:32px;padding-top:24px;display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--text-secondary);flex-wrap:wrap;gap:16px">
-    <div>© <span id="year"></span> {{ site.site.name }}. All rights reserved.</div>
-    <div style="display:flex;gap:20px">
-      <a href="#" style="color:var(--text-secondary);text-decoration:none;transition:color 0.2s">Privacy</a>
-      <a href="#" style="color:var(--text-secondary);text-decoration:none;transition:color 0.2s">Terms</a>
+  <div
+    style="
+      border-top: 1px solid var(--border);
+      margin-top: 32px;
+      padding-top: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      color: var(--text-secondary);
+      flex-wrap: wrap;
+      gap: 16px;
+    "
+  >
+    <div>
+      © <span id="year"></span> {{ site.site.name }}. All rights reserved.
+    </div>
+    <div style="display: flex; gap: 20px">
+      <a
+        href="{{ '/privacy/' | relative_url }}"
+        style="
+          color: var(--text-secondary);
+          text-decoration: none;
+          transition: color 0.2s;
+        "
+        >Privacy</a
+      >
+      <a
+        href="{{ '/terms/' | relative_url }}"
+        style="
+          color: var(--text-secondary);
+          text-decoration: none;
+          transition: color 0.2s;
+        "
+        >Terms</a
+      >
     </div>
   </div>
 </footer>
@@ -32,66 +292,80 @@
 <script>
   // Social links configuration
   const socials = {
-    github: { name: 'GitHub', icon: 'fab fa-github', url: '{{ site.social.github }}' },
-    twitter: { name: 'Twitter', icon: 'fab fa-x-twitter', url: '{{ site.social.twitter }}' },
-    discord: { name: 'Discord', icon: 'fab fa-discord', url: '{{ site.social.discord }}' }
+    github: {
+      name: "GitHub",
+      icon: "fab fa-github",
+      url: "{{ site.social.github }}",
+    },
+    twitter: {
+      name: "Twitter",
+      icon: "fab fa-x-twitter",
+      url: "{{ site.social.twitter }}",
+    },
+    discord: {
+      name: "Discord",
+      icon: "fab fa-discord",
+      url: "{{ site.social.discord }}",
+    },
   };
 
   function renderSocialLinks() {
-    const navContainer = document.getElementById('social-links-nav');
-    const footerContainer = document.getElementById('social-links-footer');
+    const navContainer = document.getElementById("social-links-nav");
+    const footerContainer = document.getElementById("social-links-footer");
 
     Object.entries(socials).forEach(([key, social]) => {
       if (social.url && social.url.trim()) {
         // Nav icon button
-        const navLink = document.createElement('a');
+        const navLink = document.createElement("a");
         navLink.href = social.url;
-        navLink.target = '_blank';
-        navLink.rel = 'noopener';
+        navLink.target = "_blank";
+        navLink.rel = "noopener";
         navLink.title = social.name;
-        navLink.style.cssText = 'display:flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:var(--radius);background:var(--bg-secondary);color:var(--text-secondary);text-decoration:none;font-size:16px;transition:all 0.2s ease;border:1px solid var(--border)';
-        const icon = document.createElement('i');
+        navLink.style.cssText =
+          "display:flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:var(--radius);background:var(--bg-secondary);color:var(--text-secondary);text-decoration:none;font-size:16px;transition:all 0.2s ease;border:1px solid var(--border)";
+        const icon = document.createElement("i");
         icon.className = social.icon;
-        icon.style.fontSize = '18px';
+        icon.style.fontSize = "18px";
         navLink.appendChild(icon);
         navLink.onmouseover = () => {
-          navLink.style.background = 'var(--accent-primary)';
-          navLink.style.color = '#000000';
-          navLink.style.borderColor = 'var(--accent-primary)';
+          navLink.style.background = "var(--accent-primary)";
+          navLink.style.color = "#000000";
+          navLink.style.borderColor = "var(--accent-primary)";
         };
         navLink.onmouseout = () => {
-          navLink.style.background = 'var(--bg-secondary)';
-          navLink.style.color = 'var(--text-secondary)';
-          navLink.style.borderColor = 'var(--border)';
+          navLink.style.background = "var(--bg-secondary)";
+          navLink.style.color = "var(--text-secondary)";
+          navLink.style.borderColor = "var(--border)";
         };
         if (navContainer) navContainer.appendChild(navLink);
 
         // Footer text link with icon
-        const footerLink = document.createElement('a');
+        const footerLink = document.createElement("a");
         footerLink.href = social.url;
-        footerLink.target = '_blank';
-        footerLink.rel = 'noopener';
-        footerLink.style.cssText = 'display:flex;align-items:center;gap:8px;color:var(--text-secondary);text-decoration:none;transition:color 0.2s;font-size:13px';
-        const footerIcon = document.createElement('i');
+        footerLink.target = "_blank";
+        footerLink.rel = "noopener";
+        footerLink.style.cssText =
+          "display:flex;align-items:center;gap:8px;color:var(--text-secondary);text-decoration:none;transition:color 0.2s;font-size:13px";
+        const footerIcon = document.createElement("i");
         footerIcon.className = social.icon;
-        footerIcon.style.width = '16px';
-        const footerText = document.createElement('span');
+        footerIcon.style.width = "16px";
+        const footerText = document.createElement("span");
         footerText.textContent = social.name;
         footerLink.appendChild(footerIcon);
         footerLink.appendChild(footerText);
         footerLink.onmouseover = () => {
-          footerLink.style.color = 'var(--accent-primary)';
+          footerLink.style.color = "var(--accent-primary)";
         };
         footerLink.onmouseout = () => {
-          footerLink.style.color = 'var(--text-secondary)';
+          footerLink.style.color = "var(--text-secondary)";
         };
         if (footerContainer) footerContainer.appendChild(footerLink);
       }
     });
   }
 
-  document.addEventListener('DOMContentLoaded', renderSocialLinks);
+  document.addEventListener("DOMContentLoaded", renderSocialLinks);
 
   // Set year in footer
-  document.getElementById('year').textContent = new Date().getFullYear();
+  document.getElementById("year").textContent = new Date().getFullYear();
 </script>

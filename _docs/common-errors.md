@@ -53,6 +53,8 @@ gem install jekyll
 
 **Solution**:
 
+{% raw %}
+
 ```liquid
 <!-- Bad: Unclosed tag -->
 {% for item in array
@@ -62,6 +64,8 @@ gem install jekyll
   {{ item }}
 {% endfor %}
 ```
+
+{% endraw %}
 
 **Error**: `undefined method 'map' for nil:NilClass`
 

@@ -1,5 +1,5 @@
 ---
-layout: doc
+layout: docs
 title: API Reference
 nav_order: 7
 category: Developer

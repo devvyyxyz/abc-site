@@ -60,11 +60,15 @@ social:
 
 Include in layout:
 
+{% raw %}
+
 ```html
 <head>
   {% seo %}
 </head>
 ```
+
+{% endraw %}
 
 ## Open Graph Tags
 

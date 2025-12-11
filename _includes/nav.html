@@ -1,18 +1,50 @@
 <header class="floating-nav">
   <div class="nav-inner">
-    <a class="logo" href="{{ '/' | relative_url }}" style="display:flex;align-items:center;gap:8px" aria-label="{{ site.site.name }}">
-      <img src="{{ site.site.logo | relative_url }}" alt="{{ site.site.name }}" style="height:32px;width:auto">
-      {% unless site.site.logo %}<span>{{ site.site.name }}</span>{% endunless %}
+    <a
+      class="logo"
+      href="{{ '/' | relative_url }}"
+      style="display: flex; align-items: center; gap: 8px"
+      aria-label="{{ site.site.name }}"
+    >
+      <img
+        src="{{ site.site.logo | relative_url }}"
+        alt="{{ site.site.name }}"
+        style="height: 32px; width: auto"
+      />
+      {% unless site.site.logo %}<span>{{ site.site.name }}</span>{% endunless
+      %}
     </a>
     <nav class="links">
       <a href="{{ '/' | relative_url }}">Home</a>
       <a href="{{ '/about/' | relative_url }}">About</a>
       <a href="{{ '/docs/' | relative_url }}">Docs</a>
-      <a href="{{ '/projects/' | relative_url }}">Projects</a>
-      <a href="{{ site.modrinth.organization_url | default: site.social.modrinth }}" target="_blank" rel="noopener">Organization</a>
+      <a href="{{ '/changelog/' | relative_url }}">Changelog</a>
+      <div class="nav-dropdown">
+        <a href="{{ '/projects/' | relative_url }}" class="dropdown-toggle">
+          Projects <i class="fas fa-chevron-down"></i>
+        </a>
+        <div class="dropdown-menu">
+          <a href="{{ '/projects/' | relative_url }}">All Projects</a>
+          <a href="{{ '/compare/' | relative_url }}"
+            ><i class="fas fa-balance-scale"></i> Compare Modpacks</a
+          >
+          <a href="{{ '/changelog/' | relative_url }}"
+            ><i class="fas fa-rocket"></i> Releases & Changelog</a
+          >
+        </div>
+      </div>
+      <a
+        href="{{ site.modrinth.organization_url | default: site.social.modrinth }}"
+        target="_blank"
+        rel="noopener"
+        >Organization</a
+      >
     </nav>
     <div class="nav-actions">
-      <div id="social-links-nav" style="display:flex;gap:6px;align-items:center"></div>
+      <div
+        id="social-links-nav"
+        style="display: flex; gap: 6px; align-items: center"
+      ></div>
       {% include theme-controls.html %}
     </div>
   </div>

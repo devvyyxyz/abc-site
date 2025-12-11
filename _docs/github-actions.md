@@ -200,6 +200,8 @@ jobs:
 
 Speed up builds with caching:
 
+{% raw %}
+
 ```yaml
 - name: Setup Ruby
   uses: ruby/setup-ruby@v1
@@ -217,6 +219,8 @@ Speed up builds with caching:
     restore-keys: |
       ${{ runner.os }}-jekyll-
 ```
+
+{% endraw %}
 
 ## Notifications
 

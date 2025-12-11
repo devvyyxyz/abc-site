@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      {% if page.title %}{{ page.title }} | {% endif %}{{ site.title }}
+    </title>
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}" />
+    <link
+      rel="stylesheet"
+      href="{{ '/assets/css/layout.css' | relative_url }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ '/assets/css/modpacks.css' | relative_url }}"
+    />
+    <link rel="stylesheet" href="{{ '/assets/css/docs.css' | relative_url }}" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+
+    <script>
+      if (!document.body) {
+        console.warn("Body not ready, skipping preloader");
+      } else {
+        window.addEventListener("load", () => {
+          document.body.classList.add("loaded");
+        });
+      }
+
+      const savedTheme = localStorage.getItem("theme") || "dark";
+      document.documentElement.setAttribute("data-theme", savedTheme);
+    </script>
+  </head>
+  <body>
+    <!-- Preloader -->
+    <div class="preloader">
+      <div class="spinner"></div>
+    </div>
+
+    <!-- Mobile Menu Toggle -->
+    <button
+      id="mobile-sidebar-toggle"
+      class="mobile-sidebar-toggle"
+      aria-label="Toggle sidebar"
+    >
+      <i class="fa-solid fa-bars"></i>
+    </button>
+
+    <!-- Docs Sidebar -->
+    <aside id="docs-sidebar" class="docs-sidebar">
+      <div class="sidebar-header">
+        <a href="{{ '/' | relative_url }}" class="sidebar-logo">
+          <i class="fa-solid fa-cube"></i>
+          <span>{{ site.title }}</span>
+        </a>
+        <button
+          id="sidebar-close"
+          class="sidebar-close"
+          aria-label="Close sidebar"
+        >
+          <i class="fa-solid fa-times"></i>
+        </button>
+      </div>
+
+      <!-- Search in Sidebar -->
+      <div class="sidebar-search">
+        <input
+          type="search"
+          id="sidebar-search"
+          placeholder="Search docs..."
+          aria-label="Search documentation"
+        />
+        <i class="fa-solid fa-search"></i>
+      </div>
+
+      <!-- Navigation Tree -->
+      <nav class="sidebar-nav">
+        {% assign docs_by_category = site.docs | group_by: "category" | sort:
+        "name" %} {% assign category_order = "Setup,Styling,User
+        Guide,Community,Developer,Help" | split: "," %} {% for category_name in
+        category_order %} {% assign category_group = docs_by_category | where:
+        "name", category_name | first %} {% if category_group %}
+        <div class="nav-category">
+          <button
+            class="category-toggle {% if page.category == category_name %}active{% endif %}"
+            data-category="{{ category_name | slugify }}"
+          >
+            <i
+              class="fa-solid {% case category_name %} {% when 'Setup' %}fa-gear {% when 'Styling' %}fa-palette {% when 'User Guide' %}fa-book-open {% when 'Community' %}fa-users {% when 'Developer' %}fa-code {% when 'Help' %}fa-circle-question {% else %}fa-file {% endcase %}"
+            ></i>
+            <span>{{ category_name }}</span>
+            <i class="fa-solid fa-chevron-down toggle-icon"></i>
+          </button>
+          <div
+            class="category-items {% if page.category == category_name %}expanded{% endif %}"
+            id="category-{{ category_name | slugify }}"
+          >
+            {% assign sorted_docs = category_group.items | sort: "nav_order" %}
+            {% for doc in sorted_docs %} {% unless doc.url contains '/category/'
+            %}
+            <a
+              href="{{ doc.url | relative_url }}"
+              class="nav-item {% if page.url == doc.url %}active{% endif %}"
+            >
+              {{ doc.title }}
+            </a>
+            {% endunless %} {% endfor %}
+          </div>
+        </div>
+        {% endif %} {% endfor %}
+      </nav>
+
+      <!-- Quick Links -->
+      <div class="sidebar-footer">
+        <a href="{{ '/docs/' | relative_url }}" class="footer-link">
+          <i class="fa-solid fa-home"></i>
+          All Docs
+        </a>
+        <a href="{{ '/projects/' | relative_url }}" class="footer-link">
+          <i class="fa-solid fa-folder"></i>
+          Projects
+        </a>
+      </div>
+    </aside>
+
+    <!-- Sidebar Overlay (for mobile) -->
+    <div id="sidebar-overlay" class="sidebar-overlay"></div>
+
+    <!-- Main Content -->
+    <div class="docs-layout">
+      <!-- Breadcrumbs -->
+      {% if page.category %}
+      <nav class="breadcrumbs" aria-label="Breadcrumb">
+        <a href="{{ '/' | relative_url }}">
+          <i class="fa-solid fa-home"></i>
+          Home
+        </a>
+        <i class="fa-solid fa-chevron-right"></i>
+        <a href="{{ '/docs/' | relative_url }}">Docs</a>
+        <i class="fa-solid fa-chevron-right"></i>
+        <a
+          href="{{ '/docs/category/' | append: page.category | slugify | append: '/' | relative_url }}"
+        >
+          {{ page.category }}
+        </a>
+        <i class="fa-solid fa-chevron-right"></i>
+        <span class="current">{{ page.title }}</span>
+      </nav>
+      {% endif %}
+
+      <!-- Page Content -->
+      <main class="docs-content">
+        <article>{{ content }}</article>
+
+        <section
+          class="feedback-card"
+          id="feedback-card"
+          aria-label="Page feedback"
+        >
+          <div class="feedback-header">
+            <div>
+              <p class="feedback-kicker">Feedback</p>
+              <h3>Was this page helpful?</h3>
+              <p class="feedback-subtext">
+                Share quick feedback to improve these docs.
+              </p>
+            </div>
+            <div class="feedback-badges" aria-label="Applies to versions">
+              {% assign applies = page.applies_to | default: page.game_versions
+              | default: '1.21.x' %} {% assign applies_array = applies | split:
+              ',' %} {% for version in applies_array %} {% assign trimmed =
+              version | strip %} {% if trimmed != '' %}
+              <span class="version-badge" aria-label="Minecraft {{ trimmed }}"
+                >{{ trimmed }}</span
+              >
+              {% endif %} {% endfor %}
+            </div>
+          </div>
+
+          <div class="feedback-actions" role="group" aria-label="Helpful?">
+            <button type="button" class="feedback-btn yes" data-feedback="yes">
+              <i class="fa-solid fa-thumbs-up"></i>
+              Yes
+            </button>
+            <button type="button" class="feedback-btn no" data-feedback="no">
+              <i class="fa-solid fa-thumbs-down"></i>
+              No
+            </button>
+          </div>
+
+          <div class="feedback-followup" id="feedback-followup" hidden>
+            <label for="feedback-notes">What can we improve?</label>
+            <textarea
+              id="feedback-notes"
+              rows="3"
+              placeholder="Optional: missing steps, unclear wording, broken links"
+            ></textarea>
+            <button type="button" class="feedback-submit" id="feedback-submit">
+              <i class="fa-solid fa-paper-plane"></i>
+              Send feedback
+            </button>
+          </div>
+
+          <p
+            class="feedback-status"
+            id="feedback-status"
+            role="status"
+            aria-live="polite"
+          ></p>
+        </section>
+
+        <!-- Page Navigation (Prev/Next) -->
+        {% assign sorted_docs = site.docs | where_exp: "doc", "doc.url !=
+        page.url" | where_exp: "doc", "doc.url contains '/docs/'" | where_exp:
+        "doc", "doc.url != '/docs/category/'" | sort: "nav_order" %} {% assign
+        current_index = nil %} {% for doc in sorted_docs %} {% if doc.url ==
+        page.url %} {% assign current_index = forloop.index0 %} {% break %} {%
+        endif %} {% endfor %} {% if current_index %} {% assign prev_index =
+        current_index | minus: 1 %} {% assign next_index = current_index | plus:
+        1 %} {% assign prev_doc = sorted_docs[prev_index] %} {% assign next_doc
+        = sorted_docs[next_index] %} {% if prev_doc or next_doc %}
+        <nav class="page-navigation">
+          {% if prev_doc %}
+          <a href="{{ prev_doc.url | relative_url }}" class="nav-prev">
+            <i class="fa-solid fa-arrow-left"></i>
+            <div>
+              <span class="nav-label">Previous</span>
+              <span class="nav-title">{{ prev_doc.title }}</span>
+            </div>
+          </a>
+          {% else %}
+          <div></div>
+          {% endif %} {% if next_doc %}
+          <a href="{{ next_doc.url | relative_url }}" class="nav-next">
+            <div>
+              <span class="nav-label">Next</span>
+              <span class="nav-title">{{ next_doc.title }}</span>
+            </div>
+            <i class="fa-solid fa-arrow-right"></i>
+          </a>
+          {% endif %}
+        </nav>
+        {% endif %} {% endif %}
+      </main>
+
+      <!-- Table of Contents (optional) -->
+      <aside class="docs-toc">
+        <div class="toc-header">
+          <h3>On This Page</h3>
+        </div>
+        <nav id="toc-nav" class="toc-nav">
+          <!-- Generated by JavaScript -->
+        </nav>
+
+        <!-- Theme Toggle in TOC -->
+        <button
+          id="theme-toggle-docs"
+          class="theme-toggle"
+          aria-label="Toggle theme"
+        >
+          <i class="fa-solid fa-sun"></i>
+          <i class="fa-solid fa-moon"></i>
+        </button>
+      </aside>
+    </div>
+
+    <script>
+      // Theme Toggle
+      const themeToggle = document.getElementById("theme-toggle-docs");
+      themeToggle?.addEventListener("click", () => {
+        const current = document.documentElement.getAttribute("data-theme");
+        const next = current === "light" ? "dark" : "light";
+        document.documentElement.setAttribute("data-theme", next);
+        localStorage.setItem("theme", next);
+      });
+
+      // Mobile Sidebar Toggle
+      const mobileToggle = document.getElementById("mobile-sidebar-toggle");
+      const sidebar = document.getElementById("docs-sidebar");
+      const overlay = document.getElementById("sidebar-overlay");
+      const sidebarClose = document.getElementById("sidebar-close");
+
+      function toggleSidebar() {
+        sidebar.classList.toggle("open");
+        overlay.classList.toggle("active");
+        document.body.style.overflow = sidebar.classList.contains("open")
+          ? "hidden"
+          : "";
+      }
+
+      mobileToggle?.addEventListener("click", toggleSidebar);
+      overlay?.addEventListener("click", toggleSidebar);
+      sidebarClose?.addEventListener("click", toggleSidebar);
+
+      // Category Toggle
+      document.querySelectorAll(".category-toggle").forEach((toggle) => {
+        toggle.addEventListener("click", () => {
+          const category = toggle.dataset.category;
+          const items = document.getElementById(`category-${category}`);
+          toggle.classList.toggle("active");
+          items.classList.toggle("expanded");
+        });
+      });
+
+      // Generate Table of Contents
+      const content = document.querySelector(".docs-content article");
+      const tocNav = document.getElementById("toc-nav");
+
+      if (content && tocNav) {
+        const headings = content.querySelectorAll("h2, h3");
+
+        if (headings.length > 0) {
+          headings.forEach((heading, index) => {
+            // Add ID if not present
+            if (!heading.id) {
+              heading.id = heading.textContent
+                .toLowerCase()
+                .replace(/[^a-z0-9]+/g, "-")
+                .replace(/^-|-$/g, "");
+            }
+
+            const link = document.createElement("a");
+            link.href = `#${heading.id}`;
+            link.textContent = heading.textContent;
+            link.className = `toc-link toc-${heading.tagName.toLowerCase()}`;
+            tocNav.appendChild(link);
+          });
+
+          // Highlight current section
+          const observer = new IntersectionObserver(
+            (entries) => {
+              entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                  const id = entry.target.id;
+                  tocNav.querySelectorAll(".toc-link").forEach((link) => {
+                    link.classList.toggle(
+                      "active",
+                      link.getAttribute("href") === `#${id}`
+                    );
+                  });
+                }
+              });
+            },
+            { rootMargin: "-20% 0px -80% 0px" }
+          );
+
+          headings.forEach((heading) => observer.observe(heading));
+        }
+      }
+
+      // Sidebar Search
+      const sidebarSearch = document.getElementById("sidebar-search");
+      sidebarSearch?.addEventListener("input", (e) => {
+        const query = e.target.value.toLowerCase();
+        const items = document.querySelectorAll(".nav-item");
+
+        items.forEach((item) => {
+          const text = item.textContent.toLowerCase();
+          const matches = text.includes(query);
+          item.style.display = matches || !query ? "" : "none";
+
+          // Expand category if item matches
+          if (matches && query) {
+            const category = item.closest(".category-items");
+            const toggle = category?.previousElementSibling;
+            category?.classList.add("expanded");
+            toggle?.classList.add("active");
+          }
+        });
+      });
+
+      // Docs micro-feedback (local only)
+      const feedbackCard = document.getElementById("feedback-card");
+      const feedbackButtons = document.querySelectorAll(".feedback-btn");
+      const feedbackFollowup = document.getElementById("feedback-followup");
+      const feedbackSubmit = document.getElementById("feedback-submit");
+      const feedbackStatus = document.getElementById("feedback-status");
+      const feedbackNotes = document.getElementById("feedback-notes");
+      const feedbackStorageKey = `docs-feedback:${window.location.pathname}`;
+
+      function completeFeedback(message) {
+        if (feedbackCard) feedbackCard.classList.add("feedback-complete");
+        if (feedbackFollowup) feedbackFollowup.hidden = true;
+        if (feedbackStatus) feedbackStatus.textContent = message;
+        try {
+          localStorage.setItem(feedbackStorageKey, "submitted");
+        } catch (err) {
+          console.warn("Feedback storage failed", err);
+        }
+      }
+
+      function maybeDisableFeedback() {
+        let stored = null;
+        try {
+          stored = localStorage.getItem(feedbackStorageKey);
+        } catch (err) {
+          console.warn("Feedback storage read failed", err);
+        }
+
+        if (stored && feedbackCard) {
+          feedbackCard.classList.add("feedback-complete");
+          if (feedbackFollowup) feedbackFollowup.hidden = true;
+          if (feedbackStatus)
+            feedbackStatus.textContent = "Thanks—feedback already recorded.";
+        }
+      }
+
+      feedbackButtons.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const value = btn.dataset.feedback;
+          if (value === "no") {
+            if (feedbackFollowup) feedbackFollowup.hidden = false;
+            if (feedbackStatus)
+              feedbackStatus.textContent = "Tell us what to improve.";
+          } else {
+            completeFeedback("Thanks for the feedback!");
+          }
+        });
+      });
+
+      feedbackSubmit?.addEventListener("click", () => {
+        const note = feedbackNotes?.value?.trim();
+        const suffix = note ? " We will review your note." : "";
+        completeFeedback(`Got it!${suffix}`);
+      });
+
+      maybeDisableFeedback();
+    </script>
+  </body>
+</html>

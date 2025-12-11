@@ -19,6 +19,49 @@ description: Browse curated Minecraft mods, resource packs, datapacks, modpacks 
   <h2>Featured Highlights</h2>
   <p class="muted">Latest additions to our growing collection</p>
   
+  {% if site.data.modpacks and site.data.modpacks.size > 0 %}
+  <div class="featured-spotlight" style="margin-bottom: 2rem;">
+    <div class="spotlight-grid">
+      {% assign sorted_modpacks = site.data.modpacks | sort: 'date_modified' | reverse %}
+      {% for modpack in sorted_modpacks limit:3 %}
+      <div class="spotlight-card animate-on-scroll scale-in stagger-{{ forloop.index }}">
+        <div class="spotlight-badge">
+          <i class="fas fa-star"></i> Featured
+        </div>
+        <div class="spotlight-image" style="background-image: url('{{ modpack.icon_url }}')"></div>
+        <div class="spotlight-content">
+          <h3>{{ modpack.name }}</h3>
+          <p class="muted">{{ modpack.description | truncate: 100 }}</p>
+          <div class="spotlight-meta">
+            <span class="meta-item">
+              <i class="fas fa-download"></i> {{ modpack.downloads | default: 0 | divided_by: 1000 }}K
+            </span>
+            <span class="meta-item">
+              <i class="fas fa-heart"></i> {{ modpack.followers | default: 0 }}
+            </span>
+            {% if modpack.game_versions and modpack.game_versions.size > 0 %}
+            <span class="meta-item">
+              <i class="fas fa-gamepad"></i> {{ modpack.game_versions[0] }}
+            </span>
+            {% endif %}
+          </div>
+          <div class="spotlight-actions">
+            <a href="{{ modpack.project_url }}" class="btn-spotlight primary" target="_blank" rel="noopener">
+              <i class="fas fa-external-link-alt"></i> View Project
+            </a>
+            {% if modpack.source_url %}
+            <a href="{{ modpack.source_url }}" class="btn-spotlight ghost" target="_blank" rel="noopener">
+              <i class="fab fa-github"></i> Source
+            </a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+  
   {% include modpacks.html %}
 </section>
 
@@ -60,6 +103,7 @@ description: Browse curated Minecraft mods, resource packs, datapacks, modpacks 
 
 {% assign featured_docs = site.docs | sort: 'nav_order' | slice: 0, 3 %}
 {% if featured_docs and featured_docs.size > 0 %}
+
 <section class="section" id="featured-docs">
   <h2>Docs Spotlight</h2>
   <p class="muted">Quick links to key guides</p>

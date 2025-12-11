@@ -110,6 +110,8 @@ Access `_data/` files:
 
 ### Array Filters
 
+{% raw %}
+
 ```liquid
 {{ array | join: ", " }}       # Join with separator
 {{ array | first }}            # First element
@@ -121,6 +123,8 @@ Access `_data/` files:
 {{ array | where: "key", "value" }}  # Filter by property
 {{ array | map: "name" }}      # Extract property
 ```
+
+{% endraw %}
 
 ### Date Filters
 
@@ -258,12 +262,18 @@ Access `_data/` files:
 
 Create reusable components in `_includes/`:
 
+{% raw %}
+
 ```liquid
 {% include header.html %}
 {% include card.html title="Test" description="Description" %}
 ```
 
+{% endraw %}
+
 With parameters:
+
+{% raw %}
 
 ```liquid
 <!-- _includes/card.html -->
@@ -272,6 +282,8 @@ With parameters:
   <p>{{ include.description }}</p>
 </div>
 ```
+
+{% endraw %}
 
 ### Layouts
 

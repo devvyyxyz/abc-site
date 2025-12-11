@@ -55,3 +55,9 @@ social:
   twitter: "https://twitter.com/devvyyxyz"
   github: "https://github.com/devvyyxyz"
   modrinth: "https://modrinth.com/organization/abcxyz"
+
+# Site links
+links:
+  status_url: "/status/"
+  sitemap: "/sitemap.xml"
+  rss: "/feed.xml"

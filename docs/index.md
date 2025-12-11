@@ -28,43 +28,43 @@ permalink: /docs/
   </div>
 
   <h3 style="margin-bottom: 16px;">Browse by Category</h3>
-  <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-bottom: 32px;">
-    <a class="card" href="{{ '/docs/category/setup/' | relative_url }}" style="text-decoration: none; display: flex; align-items: center; gap: 12px;">
+  <div class="grid docs-grid">
+    <a class="card" href="{{ '/docs/category/setup/' | relative_url }}" style="text-decoration: none; display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center;">
       <i class="fa-solid fa-gear" style="font-size: 24px; color: var(--accent-primary);"></i>
       <div>
         <h3 style="margin: 0;">Setup</h3>
         <p class="muted" style="margin: 0; font-size: 13px;">Installation & configuration</p>
       </div>
     </a>
-    <a class="card" href="{{ '/docs/category/styling/' | relative_url }}" style="text-decoration: none; display: flex; align-items: center; gap: 12px;">
+    <a class="card" href="{{ '/docs/category/styling/' | relative_url }}" style="text-decoration: none; display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center;">
       <i class="fa-solid fa-palette" style="font-size: 24px; color: var(--accent-primary);"></i>
       <div>
         <h3 style="margin: 0;">Styling</h3>
         <p class="muted" style="margin: 0; font-size: 13px;">Themes & customization</p>
       </div>
     </a>
-    <a class="card" href="{{ '/docs/category/user-guide/' | relative_url }}" style="text-decoration: none; display: flex; align-items: center; gap: 12px;">
+    <a class="card" href="{{ '/docs/category/user-guide/' | relative_url }}" style="text-decoration: none; display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center;">
       <i class="fa-solid fa-book-open" style="font-size: 24px; color: var(--accent-primary);"></i>
       <div>
         <h3 style="margin: 0;">User Guide</h3>
         <p class="muted" style="margin: 0; font-size: 13px;">For end users</p>
       </div>
     </a>
-    <a class="card" href="{{ '/docs/category/community/' | relative_url }}" style="text-decoration: none; display: flex; align-items: center; gap: 12px;">
+    <a class="card" href="{{ '/docs/category/community/' | relative_url }}" style="text-decoration: none; display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center;">
       <i class="fa-solid fa-users" style="font-size: 24px; color: var(--accent-primary);"></i>
       <div>
         <h3 style="margin: 0;">Community</h3>
         <p class="muted" style="margin: 0; font-size: 13px;">Contributing & support</p>
       </div>
     </a>
-    <a class="card" href="{{ '/docs/category/developer/' | relative_url }}" style="text-decoration: none; display: flex; align-items: center; gap: 12px;">
+    <a class="card" href="{{ '/docs/category/developer/' | relative_url }}" style="text-decoration: none; display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center;">
       <i class="fa-solid fa-code" style="font-size: 24px; color: var(--accent-primary);"></i>
       <div>
         <h3 style="margin: 0;">Developer</h3>
         <p class="muted" style="margin: 0; font-size: 13px;">Technical reference</p>
       </div>
     </a>
-    <a class="card" href="{{ '/docs/category/help/' | relative_url }}" style="text-decoration: none; display: flex; align-items: center; gap: 12px;">
+    <a class="card" href="{{ '/docs/category/help/' | relative_url }}" style="text-decoration: none; display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center;">
       <i class="fa-solid fa-circle-question" style="font-size: 24px; color: var(--accent-primary);"></i>
       <div>
         <h3 style="margin: 0;">Help</h3>
@@ -74,8 +74,14 @@ permalink: /docs/
   </div>
 
   <h3 style="margin-bottom: 16px;">All Documentation</h3>
-  <div id="docs-results" class="grid" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px;">
+  <div id="docs-results" class="grid docs-results-grid">
     <!-- Results will be populated by JavaScript -->
+  </div>
+  <div id="load-more-container" style="text-align: center; margin-top: 24px; display: none;">
+    <button id="load-more-btn" class="btn primary" style="padding: 12px 32px;">
+      <i class="fa-solid fa-angle-down"></i>
+      Load More
+    </button>
   </div>
 </section>
 
@@ -84,24 +90,35 @@ permalink: /docs/
     const docs = [
       {% assign sorted_docs = site.docs | sort: 'nav_order' %}
       {% for doc in sorted_docs %}
+        {% unless doc.url contains '/category/' %}
         {
-          title: "{{ doc.title }}",
-          description: "{{ doc.description }}",
-          url: "{{ doc.url | relative_url }}",
-          category: "{{ doc.category | default: 'Other' }}",
-          tags: [{% for tag in doc.tags %}"{{ tag }}"{% unless forloop.last %}, {% endunless %}{% endfor %}],
-          content: "{{ doc.content | strip_html | truncatewords: 20 }}"
+          title: {{ doc.title | jsonify }},
+          description: {{ doc.description | default: 'No description available' | jsonify }},
+          url: {{ doc.url | relative_url | jsonify }},
+          category: {{ doc.category | default: 'Other' | jsonify }},
+          tags: {{ doc.tags | jsonify }},
+          content: {{ doc.content | strip_html | truncatewords: 20 | jsonify }}
         }{% unless forloop.last %},{% endunless %}
+        {% endunless %}
       {% endfor %}
     ];
 
     const searchEl = document.getElementById('docs-search');
     const categoryEl = document.getElementById('docs-category');
     const resultsEl = document.getElementById('docs-results');
+    const loadMoreBtn = document.getElementById('load-more-btn');
+    const loadMoreContainer = document.getElementById('load-more-container');
+    
+    let currentFiltered = [];
+    let displayCount = 9;
+    let isSearching = false;
 
-    function renderDocs(filtered) {
-      resultsEl.innerHTML = filtered.length 
-        ? filtered.map(doc => `
+    function renderDocs(filtered, count = displayCount) {
+      currentFiltered = filtered;
+      const docsToShow = isSearching ? filtered : filtered.slice(0, count);
+      
+      resultsEl.innerHTML = docsToShow.length 
+        ? docsToShow.map(doc => `
           <div class="card">
             <h3>${doc.title}</h3>
             <p class="muted" style="font-size: 13px; margin-bottom: 12px;">${doc.description}</p>
@@ -113,11 +130,21 @@ permalink: /docs/
           </div>
         `).join('')
         : '<p class="muted" style="grid-column: 1 / -1; text-align: center;">No documentation found.</p>';
+      
+      // Show/hide load more button
+      if (isSearching || filtered.length <= count) {
+        loadMoreContainer.style.display = 'none';
+      } else {
+        loadMoreContainer.style.display = 'block';
+        loadMoreBtn.innerHTML = `<i class="fa-solid fa-angle-down"></i> Load More (${filtered.length - count} remaining)`;
+      }
     }
 
     function filterDocs() {
       const query = searchEl.value.toLowerCase();
       const category = categoryEl.value;
+      
+      isSearching = !!(query || category);
 
       const filtered = docs.filter(doc => {
         const matchesSearch = !query || 
@@ -130,8 +157,14 @@ permalink: /docs/
         return matchesSearch && matchesCategory;
       });
 
+      displayCount = 9; // Reset display count when filtering
       renderDocs(filtered);
     }
+
+    loadMoreBtn.addEventListener('click', () => {
+      displayCount += 9;
+      renderDocs(currentFiltered, displayCount);
+    });
 
     searchEl.addEventListener('input', filterDocs);
     categoryEl.addEventListener('change', filterDocs);

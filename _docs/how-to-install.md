@@ -5,6 +5,7 @@ nav_order: 6
 category: User Guide
 tags: [installation, download, mods, plugins, texture-packs]
 description: Step-by-step guide to download and install Minecraft content.
+applies_to: ["1.21.10", "1.20.6"]
 ---
 
 ## Step-by-Step Guide
