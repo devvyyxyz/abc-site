@@ -14,7 +14,14 @@
       {% unless site.site.logo %}<span>{{ site.site.name }}</span>{% endunless
       %}
     </a>
-    <nav class="links">
+    <button
+      class="mobile-menu-toggle"
+      aria-label="Toggle menu"
+      id="mobile-menu-toggle"
+    >
+      <i class="fas fa-bars"></i>
+    </button>
+    <nav class="links" id="mobile-nav">
       <a href="{{ '/' | relative_url }}">Home</a>
       <a href="{{ '/about/' | relative_url }}">About</a>
       <a href="{{ '/docs/' | relative_url }}">Docs</a>
@@ -49,3 +56,45 @@
     </div>
   </div>
 </header>
+
+<script>
+  // Mobile menu toggle
+  document.addEventListener("DOMContentLoaded", () => {
+    const toggle = document.getElementById("mobile-menu-toggle");
+    const nav = document.getElementById("mobile-nav");
+
+    if (toggle && nav) {
+      toggle.addEventListener("click", () => {
+        nav.classList.toggle("mobile-open");
+        const icon = toggle.querySelector("i");
+        if (nav.classList.contains("mobile-open")) {
+          icon.classList.remove("fa-bars");
+          icon.classList.add("fa-times");
+        } else {
+          icon.classList.remove("fa-times");
+          icon.classList.add("fa-bars");
+        }
+      });
+
+      // Close menu when clicking a link
+      nav.querySelectorAll("a").forEach((link) => {
+        link.addEventListener("click", () => {
+          nav.classList.remove("mobile-open");
+          const icon = toggle.querySelector("i");
+          icon.classList.remove("fa-times");
+          icon.classList.add("fa-bars");
+        });
+      });
+
+      // Close menu when clicking outside
+      document.addEventListener("click", (e) => {
+        if (!toggle.contains(e.target) && !nav.contains(e.target)) {
+          nav.classList.remove("mobile-open");
+          const icon = toggle.querySelector("i");
+          icon.classList.remove("fa-times");
+          icon.classList.add("fa-bars");
+        }
+      });
+    }
+  });
+</script>

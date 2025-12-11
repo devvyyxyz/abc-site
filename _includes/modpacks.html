@@ -1,9 +1,14 @@
 <div id="modpacks-list" class="modpacks-list"></div>
+<div class="carousel-indicator" id="carousel-indicator" style="display: none">
+  <i class="fas fa-arrow-left"></i> Swipe to see more
+  <i class="fas fa-arrow-right"></i>
+</div>
 
 <script>
   // Featured projects pulled from the cached Modrinth feed
   document.addEventListener('DOMContentLoaded', async () => {
     const container = document.getElementById('modpacks-list');
+    const indicator = document.getElementById('carousel-indicator');
     if (!container) return;
 
     try {
