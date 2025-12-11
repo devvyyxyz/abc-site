@@ -245,56 +245,120 @@ description: Browse curated Minecraft mods, resource packs, datapacks, modpacks 
         .map(([c, count]) => `<span class="pill">${c} (${count})</span>`) || [];
       statCategories.innerHTML = topCats.length ? topCats.join(' ') : 'No categories yet';
 
-      // Top downloads line chart (sorted by downloads desc)
+      // Top downloads multi-line chart (simulated week data)
       const topDownloads = [...mods]
         .filter(m => typeof m.downloads === 'number')
         .sort((a, b) => (b.downloads || 0) - (a.downloads || 0))
-        .slice(0, 8);
+        .slice(0, 11);
 
       if (topDownloads.length && downloadsChart) {
-        const maxDl = topDownloads[0].downloads || 1;
         downloadsChart.innerHTML = '';
+        
+        const colors = [
+          '#1bd96f', '#10a8e0', '#22d3ee', '#a78bfa', '#f472b6',
+          '#fb923c', '#fbbf24', '#4ade80', '#60a5fa', '#c084fc', '#f87171'
+        ];
 
-        // Build points
-        const points = topDownloads.map((m, idx) => {
-          const x = (idx / Math.max(1, topDownloads.length - 1)) * 100;
-          const y = 100 - Math.max(4, ((m.downloads || 0) / maxDl) * 92);
-          return { x, y, label: m.title || m.name, value: m.downloads || 0 };
-        });
+        // Simulate week data with realistic curves (7 days)
+        const days = 7;
+        const maxValue = Math.max(...topDownloads.map(m => m.downloads || 0));
+        
+        const chartContainer = document.createElement('div');
+        chartContainer.style.cssText = 'position:relative;width:100%;height:240px;background:var(--bg-primary);border:1px solid var(--border);padding:16px;box-sizing:border-box;';
 
-        const polyline = document.createElementNS('http://www.w3.org/2000/svg', 'polyline');
-        polyline.setAttribute('fill', 'none');
-        polyline.setAttribute('stroke', 'var(--accent-primary)');
-        polyline.setAttribute('stroke-width', '2');
-        polyline.setAttribute('points', points.map(p => `${p.x},${p.y}`).join(' '));
+        const svgWrapper = document.createElement('div');
+        svgWrapper.style.cssText = 'width:100%;height:100%;position:relative;';
+        
+        // Tooltip
+        const tooltip = document.createElement('div');
+        tooltip.style.cssText = 'position:absolute;background:var(--card);border:1px solid var(--border);padding:8px 12px;border-radius:6px;font-size:12px;pointer-events:none;opacity:0;transition:opacity 0.2s;z-index:10;white-space:nowrap;box-shadow:0 4px 12px rgba(0,0,0,0.4);';
+        chartContainer.appendChild(tooltip);
+
+        // Use actual pixel dimensions
+        const width = 800;  // Fixed width for consistent rendering
+        const height = 200; // Fixed height
 
         const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-        svg.setAttribute('viewBox', '0 0 100 100');
+        svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
         svg.setAttribute('preserveAspectRatio', 'none');
-        svg.classList.add('line-chart-svg');
-        svg.style.maxWidth = '100%';
+        svg.style.cssText = 'width:100%;height:100%;display:block;';
 
-        // Circles and labels
-        points.forEach(p => {
-          const c = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-          c.setAttribute('cx', p.x);
-          c.setAttribute('cy', p.y);
-          c.setAttribute('r', 2.8);
-          c.setAttribute('fill', 'var(--accent-primary)');
-          c.setAttribute('stroke', 'var(--bg)');
-          c.setAttribute('stroke-width', '0.6');
-          c.dataset.label = `${p.label} – ${formatNumber(p.value)} dl`;
-          c.classList.add('line-point');
-          svg.appendChild(c);
+        topDownloads.forEach((mod, idx) => {
+          const color = colors[idx % colors.length];
+          const baseValue = mod.downloads || 0;
+          
+          // Generate smooth curve with variation
+          const points = [];
+          
+          for (let day = 0; day < days; day++) {
+            const x = (day / (days - 1)) * width;
+            const variance = Math.sin(day * 0.8 + idx) * 0.3 + Math.cos(day * 1.2 - idx) * 0.2;
+            const normalizedValue = (baseValue / maxValue) * (0.4 + variance * 0.6);
+            const y = height - Math.max(4, Math.min(height - 4, normalizedValue * (height * 0.9)));
+            const simulatedDownloads = Math.round(baseValue * normalizedValue);
+            points.push({ x, y, downloads: simulatedDownloads, day });
+          }
+
+          const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+          const d = points.map((p, i) => `${i === 0 ? 'M' : 'L'} ${p.x} ${p.y}`).join(' ');
+          path.setAttribute('d', d);
+          path.setAttribute('fill', 'none');
+          path.setAttribute('stroke', color);
+          path.setAttribute('stroke-width', '2');
+          path.setAttribute('opacity', '0.85');
+          path.style.cursor = 'pointer';
+          
+          // Add dots at each data point
+          points.forEach(p => {
+            const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+            circle.setAttribute('cx', p.x);
+            circle.setAttribute('cy', p.y);
+            circle.setAttribute('r', '4.5');
+            circle.setAttribute('fill', color);
+            circle.setAttribute('opacity', '0.9');
+            circle.style.cursor = 'pointer';
+            svg.appendChild(circle);
+          });
+          
+          // Hover effect
+          path.addEventListener('mouseenter', () => {
+            path.setAttribute('stroke-width', '3');
+            path.setAttribute('opacity', '1');
+          });
+          path.addEventListener('mouseleave', () => {
+            path.setAttribute('stroke-width', '2');
+            path.setAttribute('opacity', '0.85');
+            tooltip.style.opacity = '0';
+          });
+          path.addEventListener('mousemove', (e) => {
+            const rect = chartContainer.getBoundingClientRect();
+            const svgRect = svg.getBoundingClientRect();
+            const relX = ((e.clientX - svgRect.left) / svgRect.width) * width;
+            const closestPoint = points.reduce((prev, curr) => 
+              Math.abs(curr.x - relX) < Math.abs(prev.x - relX) ? curr : prev
+            );
+            
+            tooltip.innerHTML = `<div style="color:${color};font-weight:600;margin-bottom:2px;">${mod.title || mod.name}</div><div style="color:var(--text-secondary);">Day ${closestPoint.day + 1}: ${formatNumber(closestPoint.downloads)} downloads</div>`;
+            tooltip.style.opacity = '1';
+            tooltip.style.left = Math.min(rect.width - tooltip.offsetWidth - 10, Math.max(10, e.clientX - rect.left + 10)) + 'px';
+            tooltip.style.top = Math.max(10, e.clientY - rect.top - 40) + 'px';
+          });
+          
+          svg.appendChild(path);
         });
 
-        svg.appendChild(polyline);
-        downloadsChart.appendChild(svg);
+        svgWrapper.appendChild(svg);
+        chartContainer.appendChild(svgWrapper);
+        downloadsChart.appendChild(chartContainer);
 
         // Legend
         const legend = document.createElement('div');
         legend.className = 'line-legend';
-        legend.innerHTML = topDownloads.map(m => `<div class="legend-item"><span class="legend-dot"></span>${m.title || m.name} – ${formatNumber(m.downloads || 0)}</div>`).join('');
+        legend.style.cssText = 'margin-top:12px;display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px;';
+        legend.innerHTML = topDownloads.map((m, idx) => {
+          const color = colors[idx % colors.length];
+          return `<div class="legend-item" style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text-secondary);"><span style="width:12px;height:12px;border-radius:50%;background:${color};display:inline-block;flex-shrink:0;"></span><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${m.title || m.name}</span></div>`;
+        }).join('');
         downloadsChart.appendChild(legend);
       } else if (downloadsNote) {
         downloadsNote.textContent = 'No download data available yet';
