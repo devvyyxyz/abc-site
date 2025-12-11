@@ -1,5 +1,6 @@
+{% assign page_lang = page.lang | default: 'en' %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ page_lang }}">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -39,7 +40,27 @@
     <meta property="og:image:alt" content="{{ embed_alt }}" />
     <meta property="og:type" content="{{ page.layout | default: 'website' }}" />
     <meta property="og:site_name" content="{{ site.site.name }}" />
-    <meta property="og:locale" content="en_US" />
+    <meta
+      property="og:locale"
+      content="{% if page_lang == 'fr' %}fr_FR{% else %}en_US{% endif %}"
+    />
+
+    <!-- hreflang tags for multilingual SEO -->
+    <link
+      rel="alternate"
+      hreflang="en"
+      href="{{ page.url | remove: '/fr' | absolute_url }}"
+    />
+    <link
+      rel="alternate"
+      hreflang="fr"
+      href="{{ '/fr' | append: page.url | absolute_url }}"
+    />
+    <link
+      rel="alternate"
+      hreflang="x-default"
+      href="{{ page.url | remove: '/fr' | absolute_url }}"
+    />
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="{{ twitter_card }}" />

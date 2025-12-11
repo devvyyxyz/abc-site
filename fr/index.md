@@ -1,8 +1,8 @@
 ---
 layout: default
 title: Home
-description: Browse curated Minecraft mods, resource packs, datapacks, modpacks and plugins.
-lang: en
+description: Parcourir les mods, packs de ressources, datapacks, modpacks et plugins Minecraft sélectionnés.
+lang: fr
 ---
 
 {% assign t = site.data[page.lang] %}
@@ -12,8 +12,8 @@ lang: en
     <h1>{{ t.hero_title }}</h1>
     <p class="muted">{{ t.hero_subtitle }}</p>
     <div class="cta-row">
-      <a class="btn primary" href="{{ '/projects/' | relative_url }}">{{ t.browse_projects }}</a>
-      <a class="btn ghost" href="{{ '/about/' | relative_url }}">{{ t.learn_more }}</a>
+      <a class="btn primary" href="{{ '/fr/projects/' | relative_url }}">{{ t.browse_projects }}</a>
+      <a class="btn ghost" href="{{ '/fr/about/' | relative_url }}">{{ t.learn_more }}</a>
     </div>
   </div>
 </section>
@@ -104,84 +104,12 @@ lang: en
   </div>
 </section>
 
-{% assign featured_docs = site.docs | sort: 'nav_order' | slice: 0, 3 %}
-{% if featured_docs and featured_docs.size > 0 %}
-
-<section class="section" id="featured-docs">
-  <h2>Docs Spotlight</h2>
-  <p class="muted">Quick links to key guides</p>
-  <div class="grid">
-    {% for doc in featured_docs %}
-      <a class="card" href="{{ doc.url | relative_url }}" style="text-decoration:none">
-        <h3 style="margin-top:0">{{ doc.title }}</h3>
-        {% if doc.description %}<p class="muted">{{ doc.description }}</p>{% else %}<p class="muted">Read more</p>{% endif %}
-        <span class="pill">Docs</span>
-      </a>
-    {% endfor %}
-  </div>
-</section>
-{% endif %}
-
 <section class="section">
-  <h2>How It Works</h2>
-  <div class="grid">
-    <div class="card">
-      <h3><i class="fa-solid fa-box"></i> Static Content</h3>
-      <p>All projects are stored as static data. No database needed.</p>
-    </div>
-    <div class="card">
-      <h3><i class="fa-solid fa-arrows-rotate"></i> Auto-Update</h3>
-      <p>Daily syncs from Modrinth keep your showcase fresh.</p>
-    </div>
-    <div class="card">
-      <h3><i class="fa-solid fa-bolt"></i> Lightning Fast</h3>
-      <p>Deployed globally on GitHub Pages for instant loading.</p>
-    </div>
-    <div class="card">
-      <h3><i class="fa-solid fa-palette"></i> Beautiful</h3>
-      <p>Modern design with smooth animations and blur effects.</p>
-    </div>
-  </div>
-</section>
-
-<section class="section">
-  <h2>Get Started</h2>
-  <div class="grid">
-    <div class="card">
-      <h3>Read the Docs</h3>
-      <p class="muted">Configure branding, fetch projects, and deploy.</p>
-      <a class="btn primary" href="{{ '/docs/' | relative_url }}">Open Docs</a>
-    </div>
-    <div class="card">
-      <h3>Browse Projects</h3>
-      <p class="muted">Filter by type, loader, or version.</p>
-      <a class="btn primary" href="{{ '/projects/' | relative_url }}">View Catalog</a>
-    </div>
-    <div class="card">
-      <h3>Sync from Modrinth</h3>
-      <p class="muted">Run <code>npm run fetch</code> or use the scheduled workflow.</p>
-      <a class="btn ghost" href="{{ '/docs/' | relative_url }}">See Setup</a>
-    </div>
-  </div>
-</section>
-
-<section class="section">
-  <h2>Stay in the Loop</h2>
-  <div class="grid">
-    <div class="card">
-      <h3>Join Discord</h3>
-      <p class="muted">Get support, share feedback, and see previews.</p>
-      <a class="btn ghost" href="{{ site.social.discord }}" target="_blank" rel="noopener">Open Discord</a>
-    </div>
-    <div class="card">
-      <h3>Watch GitHub</h3>
-      <p class="muted">Track updates, file issues, or contribute.</p>
-      <a class="btn ghost" href="{{ site.social.github }}" target="_blank" rel="noopener">View Repo</a>
-    </div>
-    <div class="card">
-      <h3>Follow Modrinth</h3>
-      <p class="muted">Stay updated on releases across all projects.</p>
-      <a class="btn ghost" href="{{ site.modrinth.organization_url | default: site.social.modrinth }}" target="_blank" rel="noopener">Go to Modrinth</a>
+  <div class="card">
+    <h2 style="margin-top: 0">🚀 Modrinth Organization</h2>
+    <div style="display: grid; gap: 16px">
+      <p class="muted">Tous nos projets sont publiés et maintenus via Modrinth.</p>
+      <a class="btn ghost" href="{{ site.modrinth.organization_url | default: site.social.modrinth }}" target="_blank" rel="noopener">Aller sur Modrinth</a>
     </div>
   </div>
 </section>
@@ -206,7 +134,7 @@ lang: en
       const res = await fetch(modsUrl);
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const mods = await res.json();
-      if (!Array.isArray(mods) || mods.length === 0) throw new Error('No projects found');
+      if (!Array.isArray(mods) || mods.length === 0) throw new Error('{{ t.no_projects_found }}');
 
       const loaders = new Set();
       const versions = new Set();
@@ -290,9 +218,8 @@ lang: en
         tooltip.style.cssText = 'position:absolute;background:rgba(0,0,0,0.8);color:white;border:1px solid var(--border);padding:8px 12px;border-radius:6px;font-size:12px;pointer-events:none;opacity:0;transition:opacity 0.2s;z-index:10;white-space:nowrap;box-shadow:0 4px 12px rgba(0,0,0,0.4);';
         chartContainer.appendChild(tooltip);
 
-        // Use actual pixel dimensions
-        const width = 800;  // Fixed width for consistent rendering
-        const height = 200; // Fixed height
+        const width = 800;
+        const height = 200;
 
         const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
         svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
@@ -303,7 +230,6 @@ lang: en
           const color = colors[idx % colors.length];
           const baseValue = mod.downloads || 0;
           
-          // Generate smooth curve with variation
           const points = [];
           
           for (let day = 0; day < days; day++) {
@@ -324,7 +250,6 @@ lang: en
           path.setAttribute('opacity', '0.85');
           path.style.cursor = 'pointer';
           
-          // Add dots at each data point
           points.forEach(p => {
             const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
             circle.setAttribute('cx', p.x);
@@ -336,7 +261,6 @@ lang: en
             svg.appendChild(circle);
           });
           
-          // Hover effect
           path.addEventListener('mouseenter', () => {
             path.setAttribute('stroke-width', '3');
             path.setAttribute('opacity', '1');
@@ -354,7 +278,7 @@ lang: en
               Math.abs(curr.x - relX) < Math.abs(prev.x - relX) ? curr : prev
             );
             
-            tooltip.innerHTML = `<div style="color:${color};font-weight:600;margin-bottom:2px;">${mod.title || mod.name}</div><div>Day ${closestPoint.day + 1}: ${formatNumber(closestPoint.downloads)} downloads</div>`;
+            tooltip.innerHTML = `<div style="color:${color};font-weight:600;margin-bottom:2px;">${mod.title || mod.name}</div><div>Jour ${closestPoint.day + 1}: ${formatNumber(closestPoint.downloads)} téléchargements</div>`;
             tooltip.style.opacity = '1';
             tooltip.style.left = Math.min(rect.width - tooltip.offsetWidth - 10, Math.max(10, e.clientX - rect.left + 10)) + 'px';
             tooltip.style.top = Math.max(10, e.clientY - rect.top - 40) + 'px';
@@ -366,7 +290,6 @@ lang: en
         svgWrapper.appendChild(svg);
         chartContainer.appendChild(svgWrapper);
 
-        // Right side: legend
         const legendContainer = document.createElement('div');
         legendContainer.style.cssText = 'width:200px;display:flex;flex-direction:column;gap:8px;overflow-y:auto;max-height:240px;padding-right:8px;';
         legendContainer.className = 'line-legend';

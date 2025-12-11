@@ -1,0 +1,35 @@
+# English translations
+hero_title: "Showcase: Minecraft Mods & Packs"
+hero_subtitle: "Mods, resource packs, datapacks, modpacks and plugins — curated from our organization."
+browse_projects: "Browse Projects"
+learn_more: "Learn More"
+
+# Featured section
+featured_title: "Featured Highlights"
+featured_subtitle: "Latest additions to our growing collection"
+featured_badge: "Featured"
+view_project: "View Project"
+source: "Source"
+
+# Stats section
+stats_title: "Project Snapshot"
+stats_subtitle: "Live data pulled from our Modrinth cache"
+stat_total_projects: "Total Projects"
+stat_total_downloads: "Total Downloads"
+stat_supported_loaders: "Supported Loaders"
+stat_game_versions: "Game Versions"
+stat_top_categories: "Top Categories"
+stat_top_downloads: "Top Downloads"
+stat_downloads_note: "Highest downloaded projects"
+stat_loading: "Loading…"
+stat_unavailable: "Unavailable"
+stat_projects_catalog: "Projects in catalog"
+stat_avg_per_project: "avg per project"
+stat_unique_versions: "Unique game versions"
+stat_no_categories: "No categories yet"
+stat_no_data: "No download data available yet"
+
+# Common
+error_loading: "Error loading"
+failed_to_load: "Failed to load"
+no_projects_found: "No projects found. They will sync automatically."

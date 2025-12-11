@@ -1,0 +1,35 @@
+# French translations
+hero_title: "Vitrine : Mods & Packs Minecraft"
+hero_subtitle: "Mods, packs de ressources, datapacks, modpacks et plugins — sélectionnés par notre organisation."
+browse_projects: "Parcourir les Projets"
+learn_more: "En Savoir Plus"
+
+# Featured section
+featured_title: "Points Forts"
+featured_subtitle: "Derniers ajouts à notre collection"
+featured_badge: "En Vedette"
+view_project: "Voir le Projet"
+source: "Source"
+
+# Stats section
+stats_title: "Aperçu des Projets"
+stats_subtitle: "Données en direct de notre cache Modrinth"
+stat_total_projects: "Projets Totaux"
+stat_total_downloads: "Téléchargements Totaux"
+stat_supported_loaders: "Chargeurs Supportés"
+stat_game_versions: "Versions du Jeu"
+stat_top_categories: "Meilleures Catégories"
+stat_top_downloads: "Meilleurs Téléchargements"
+stat_downloads_note: "Projets les plus téléchargés"
+stat_loading: "Chargement…"
+stat_unavailable: "Indisponible"
+stat_projects_catalog: "Projets dans le catalogue"
+stat_avg_per_project: "moy par projet"
+stat_unique_versions: "Versions de jeu uniques"
+stat_no_categories: "Pas encore de catégories"
+stat_no_data: "Aucune donnée de téléchargement disponible"
+
+# Common
+error_loading: "Erreur de chargement"
+failed_to_load: "Échec du chargement"
+no_projects_found: "Aucun projet trouvé. Ils se synchroniseront automatiquement."

@@ -263,8 +263,33 @@
       gap: 16px;
     "
   >
-    <div>
-      © <span id="year"></span> {{ site.site.name }}. All rights reserved.
+    <div style="display: flex; gap: 16px; align-items: center; flex-wrap: wrap">
+      <div>
+        © <span id="year"></span> {{ site.site.name }}. All rights reserved.
+      </div>
+      <div
+        id="language-switcher"
+        style="display: flex; gap: 8px; align-items: center"
+      >
+        <span style="font-size: 12px; color: var(--text-secondary)"
+          >Language:</span
+        >
+        <select
+          id="lang-select"
+          style="
+            padding: 4px 8px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            background: var(--bg-secondary);
+            color: var(--text);
+            font-size: 12px;
+            cursor: pointer;
+          "
+        >
+          <option value="en">English</option>
+          <option value="fr">Français</option>
+        </select>
+      </div>
     </div>
     <div style="display: flex; gap: 20px">
       <a
@@ -368,4 +393,29 @@
 
   // Set year in footer
   document.getElementById("year").textContent = new Date().getFullYear();
+
+  // Language switcher
+  const langSelect = document.getElementById("lang-select");
+  if (langSelect) {
+    const currentLang = '{{ page.lang | default: "en" }}';
+    langSelect.value = currentLang;
+
+    langSelect.addEventListener("change", (e) => {
+      const selectedLang = e.target.value;
+      const currentPath = window.location.pathname;
+      const baseUrl = "{{ site.baseurl }}";
+
+      // Remove existing language prefix
+      let cleanPath = currentPath.replace(baseUrl, "");
+      cleanPath = cleanPath.replace(/^\/(en|fr)/, "");
+
+      // Build new URL
+      const newPath =
+        selectedLang === "en"
+          ? baseUrl + cleanPath
+          : baseUrl + "/" + selectedLang + cleanPath;
+
+      window.location.href = newPath;
+    });
+  }
 </script>
