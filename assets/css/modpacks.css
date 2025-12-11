@@ -7,7 +7,7 @@
 .modpack {
   background: var(--card);
   padding: 16px;
-  border-radius: var(--radius);
+  border-radius: 0;
   display: grid;
   grid-template-columns: auto 1fr;
   grid-template-rows: auto auto auto;
@@ -31,7 +31,7 @@
 .modpack .thumb {
   width: 80px;
   height: 80px;
-  border-radius: var(--radius);
+  border-radius: 0;
   flex: 0 0 80px;
   background-size: cover;
   background-repeat: no-repeat;
@@ -203,7 +203,7 @@
 .stat-card {
   background: var(--card);
   border: 1px solid var(--border);
-  border-radius: var(--radius);
+  border-radius: 0;
   padding: 14px 16px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
