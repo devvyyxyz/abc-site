@@ -17,7 +17,7 @@ exclude:
   - src/
 
 # Site URLs
-url: https://devvyyxyz.github.io
+url: https://abc-site.devvyy.xyz
 baseurl: /abc-site
 
 site:
@@ -29,14 +29,40 @@ site:
 
 branding:
   accent: "#1bd96f"
-  background: "#0d0d0d"
-  card: "#1f1f1f"
-  border: "#232323"
 
-meta:
-  og_image: /assets/images/logo.svg
-  favicon: /assets/images/favicon.svg
-  apple_touch_icon: /assets/images/logo.svg
+  # SEO & Metadata
+  meta:
+    # Favicons / icons
+    favicon: /favicon.svg
+    apple_touch_icon: /assets/images/logo.svg
+
+    # Open Graph defaults
+    og_image: /assets/images/logo.svg
+    og_title: "ABC | Mods & Packs"
+    og_description: "Browse curated Minecraft mods, resource packs, datapacks, modpacks and plugins."
+
+    # Twitter card defaults
+    twitter_card: summary_large_image
+    twitter_site: "@devvyyxyz"
+    twitter_creator: "@devvyyxyz"
+
+    # Platform-specific embeds (can override per page with frontmatter)
+    embeds:
+      default:
+        image: /assets/images/logo.svg
+        alt: "ABC Mods & Packs"
+      discord:
+        image: /assets/images/logo.svg
+        color: "#1bd96f"
+      twitter:
+        image: /assets/images/logo.svg
+        card: summary_large_image
+        alt: "ABC Mods & Packs"
+
+      # Social links
+      image: /assets/images/logo.svg
+      card: summary_large_image
+      alt: "ABC Mods & Packs"
 
 modrinth:
   org_slug: abcxyz

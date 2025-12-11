@@ -10,6 +10,18 @@
     />
 
     <!-- SEO Meta Tags -->
+    {% assign meta_config = site.meta | default: site.branding.meta %} {% assign
+    default_embed_image = meta_config.embeds.default.image | default:
+    meta_config.og_image | default: site.site.logo %} {% assign
+    discord_embed_image = meta_config.embeds.discord.image | default:
+    default_embed_image %} {% assign twitter_embed_image =
+    meta_config.embeds.twitter.image | default: default_embed_image %} {% assign
+    embed_image = page.og_image | default: page.icon_url | default:
+    discord_embed_image %} {% assign embed_alt = page.og_image_alt | default:
+    meta_config.embeds.default.alt | default: site.site.name %} {% assign
+    twitter_card = meta_config.embeds.twitter.card | default:
+    'summary_large_image' %}
+
     <meta
       property="og:title"
       content="{{ page.title | default: site.title }}"
@@ -19,15 +31,13 @@
       content="{{ page.description | default: site.description }}"
     />
     <meta property="og:url" content="{{ page.url | absolute_url }}" />
-    <meta
-      property="og:image"
-      content="{{ page.icon_url | default: site.meta.og_image | default: site.site.logo | absolute_url }}"
-    />
+    <meta property="og:image" content="{{ embed_image | absolute_url }}" />
+    <meta property="og:image:alt" content="{{ embed_alt }}" />
     <meta property="og:type" content="{{ page.layout | default: 'website' }}" />
     <meta property="og:site_name" content="{{ site.site.name }}" />
 
     <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:card" content="{{ twitter_card }}" />
     <meta
       name="twitter:title"
       content="{{ page.title | default: site.title }}"
@@ -38,8 +48,9 @@
     />
     <meta
       name="twitter:image"
-      content="{{ page.icon_url | default: site.meta.og_image | default: site.site.logo | absolute_url }}"
+      content="{{ page.twitter_image | default: twitter_embed_image | absolute_url }}"
     />
+    <meta name="twitter:image:alt" content="{{ embed_alt }}" />
     <meta
       name="twitter:creator"
       content="{{ site.social.twitter | replace: 'https://twitter.com/', '@' }}"
@@ -54,16 +65,16 @@
     <link
       rel="icon"
       type="image/svg+xml"
-      href="{{ site.meta.favicon | default: '/assets/images/favicon.svg' | relative_url }}"
+      href="{{ meta_config.favicon | default: '/assets/images/favicon.svg' | relative_url }}"
     />
     <link
       rel="icon"
       type="image/x-icon"
-      href="{{ site.meta.favicon | default: '/favicon.ico' | relative_url }}"
+      href="{{ meta_config.favicon | default: '/favicon.ico' | relative_url }}"
     />
     <link
       rel="apple-touch-icon"
-      href="{{ site.meta.apple_touch_icon | default: site.meta.og_image | relative_url }}"
+      href="{{ meta_config.apple_touch_icon | default: meta_config.og_image | relative_url }}"
     />
 
     <!-- Google Fonts -->
