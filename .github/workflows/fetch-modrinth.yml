@@ -1,9 +1,9 @@
 name: Fetch Modrinth Projects
 
 on:
-  # Run daily at 2 AM UTC
+  # Run weekly on Monday at 2 AM UTC
   schedule:
-    - cron: '0 2 * * *'
+    - cron: '0 2 * * 1'
   # Run on push to main
   push:
     branches: [main]

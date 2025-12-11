@@ -1,0 +1,231 @@
+---
+layout: default
+---
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "{{ page.title }}",
+    "description": "{{ page.description }}",
+    "url": "{{ page.url | absolute_url }}",
+    "image": "{{ page.icon_url | absolute_url }}",
+    "applicationCategory": "Utility",
+    "operatingSystem": "Windows, macOS, Linux",
+    "author": {
+      "@type": "Organization",
+      "name": "{{ site.site.name }}"
+    },
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "5",
+      "ratingCount": "{{ page.followers | default: 1 }}"
+    }
+  }
+</script>
+
+<div class="project-detail" style="margin: 40px 0">
+  <div
+    style="
+      display: flex;
+      gap: 24px;
+      align-items: flex-start;
+      margin-bottom: 40px;
+    "
+  >
+    <img
+      src="{{ page.icon_url }}"
+      alt="{{ page.title }} icon"
+      style="
+        width: 120px;
+        height: 120px;
+        border-radius: 12px;
+        flex-shrink: 0;
+        object-fit: cover;
+      "
+    />
+    <div style="flex: 1">
+      <h1 style="margin: 0 0 8px 0">{{ page.title }}</h1>
+      <p
+        style="
+          margin: 0 0 16px 0;
+          color: var(--text-secondary);
+          font-size: 16px;
+        "
+      >
+        {{ page.description }}
+      </p>
+
+      <div
+        style="display: flex; gap: 16px; margin-bottom: 16px; flex-wrap: wrap"
+      >
+        <div class="stat-badge">
+          <i class="fas fa-download"></i> {{ page.downloads | default: 0 |
+          divided_by: 1000 }}K Downloads
+        </div>
+        <div class="stat-badge">
+          <i class="fas fa-heart"></i> {{ page.followers | default: 0 }}
+          Followers
+        </div>
+        {% if page.game_versions and page.game_versions.size > 0 %}
+        <div class="stat-badge">
+          <i class="fas fa-gamepad"></i> {{ page.game_versions | join: ', ' }}
+        </div>
+        {% endif %}
+      </div>
+
+      <div
+        style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px"
+      >
+        {% if page.loaders and page.loaders.size > 0 %} {% for loader in
+        page.loaders limit: 4 %}
+        <span class="pill">{{ loader }}</span>
+        {% endfor %} {% endif %}
+      </div>
+
+      <div style="display: flex; gap: 12px">
+        <a
+          href="{{ page.project_url }}"
+          class="btn primary"
+          target="_blank"
+          rel="noopener"
+        >
+          <i class="fas fa-external-link-alt"></i> View on Modrinth
+        </a>
+        {% if page.source_url %}
+        <a
+          href="{{ page.source_url }}"
+          class="btn ghost"
+          target="_blank"
+          rel="noopener"
+        >
+          <i class="fab fa-github"></i> Source Code
+        </a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom: 24px">
+    <h2 style="margin-top: 0">About</h2>
+    <p>{{ page.description }}</p>
+    {% if page.long_description %} {{ page.long_description | markdownify }} {%
+    endif %}
+  </div>
+
+  {% if page.categories and page.categories.size > 0 %}
+  <div class="card" style="margin-bottom: 24px">
+    <h3 style="margin-top: 0">Categories</h3>
+    <div style="display: flex; gap: 8px; flex-wrap: wrap">
+      {% for cat in page.categories %}
+      <span class="pill">{{ cat }}</span>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+
+  <div
+    style="
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    "
+  >
+    <div class="card">
+      <h4
+        style="
+          margin: 0 0 8px 0;
+          font-size: 12px;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+          color: var(--text-secondary);
+        "
+      >
+        Downloads
+      </h4>
+      <div style="font-size: 28px; font-weight: 700; margin-bottom: 4px">
+        {{ page.downloads | default: 0 | divided_by: 1000 }}K
+      </div>
+      <p style="margin: 0; font-size: 13px; color: var(--text-secondary)">
+        Total project downloads
+      </p>
+    </div>
+
+    <div class="card">
+      <h4
+        style="
+          margin: 0 0 8px 0;
+          font-size: 12px;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+          color: var(--text-secondary);
+        "
+      >
+        Followers
+      </h4>
+      <div style="font-size: 28px; font-weight: 700; margin-bottom: 4px">
+        {{ page.followers | default: 0 }}
+      </div>
+      <p style="margin: 0; font-size: 13px; color: var(--text-secondary)">
+        Community followers
+      </p>
+    </div>
+
+    {% if page.updated %}
+    <div class="card">
+      <h4
+        style="
+          margin: 0 0 8px 0;
+          font-size: 12px;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+          color: var(--text-secondary);
+        "
+      >
+        Last Updated
+      </h4>
+      <div style="font-size: 16px; font-weight: 600; margin-bottom: 4px">
+        {{ page.updated | date: '%b %d, %Y' }}
+      </div>
+      <p style="margin: 0; font-size: 13px; color: var(--text-secondary)">
+        Latest changes
+      </p>
+    </div>
+    {% endif %}
+  </div>
+
+  <div
+    style="
+      text-align: center;
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+    "
+  >
+    <p style="color: var(--text-secondary); margin: 0 0 12px 0">
+      Want to learn more?
+    </p>
+    <a href="{{ '/projects/' | relative_url }}" class="btn ghost"
+      >Browse All Projects</a
+    >
+  </div>
+</div>
+
+<style>
+  .stat-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 12px;
+    background: var(--bg-secondary);
+    border-radius: 6px;
+    font-size: 14px;
+    color: var(--text);
+  }
+</style>

@@ -263,15 +263,19 @@ description: Browse curated Minecraft mods, resource packs, datapacks, modpacks 
         const days = 7;
         const maxValue = Math.max(...topDownloads.map(m => m.downloads || 0));
         
+        const chartWrapper = document.createElement('div');
+        chartWrapper.style.cssText = 'display:flex;gap:20px;align-items:stretch;margin-bottom:12px;';
+
+        // Left side: chart
         const chartContainer = document.createElement('div');
-        chartContainer.style.cssText = 'position:relative;width:100%;height:240px;background:var(--bg-primary);border:1px solid var(--border);padding:16px;box-sizing:border-box;';
+        chartContainer.style.cssText = 'flex:1;background:var(--bg-primary);border:1px solid var(--border);padding:16px;box-sizing:border-box;position:relative;';
 
         const svgWrapper = document.createElement('div');
-        svgWrapper.style.cssText = 'width:100%;height:100%;position:relative;';
+        svgWrapper.style.cssText = 'width:100%;height:240px;position:relative;';
         
         // Tooltip
         const tooltip = document.createElement('div');
-        tooltip.style.cssText = 'position:absolute;background:var(--card);border:1px solid var(--border);padding:8px 12px;border-radius:6px;font-size:12px;pointer-events:none;opacity:0;transition:opacity 0.2s;z-index:10;white-space:nowrap;box-shadow:0 4px 12px rgba(0,0,0,0.4);';
+        tooltip.style.cssText = 'position:absolute;background:rgba(0,0,0,0.8);color:white;border:1px solid var(--border);padding:8px 12px;border-radius:6px;font-size:12px;pointer-events:none;opacity:0;transition:opacity 0.2s;z-index:10;white-space:nowrap;box-shadow:0 4px 12px rgba(0,0,0,0.4);';
         chartContainer.appendChild(tooltip);
 
         // Use actual pixel dimensions
@@ -338,7 +342,7 @@ description: Browse curated Minecraft mods, resource packs, datapacks, modpacks 
               Math.abs(curr.x - relX) < Math.abs(prev.x - relX) ? curr : prev
             );
             
-            tooltip.innerHTML = `<div style="color:${color};font-weight:600;margin-bottom:2px;">${mod.title || mod.name}</div><div style="color:var(--text-secondary);">Day ${closestPoint.day + 1}: ${formatNumber(closestPoint.downloads)} downloads</div>`;
+            tooltip.innerHTML = `<div style="color:${color};font-weight:600;margin-bottom:2px;">${mod.title || mod.name}</div><div>Day ${closestPoint.day + 1}: ${formatNumber(closestPoint.downloads)} downloads</div>`;
             tooltip.style.opacity = '1';
             tooltip.style.left = Math.min(rect.width - tooltip.offsetWidth - 10, Math.max(10, e.clientX - rect.left + 10)) + 'px';
             tooltip.style.top = Math.max(10, e.clientY - rect.top - 40) + 'px';
@@ -349,17 +353,19 @@ description: Browse curated Minecraft mods, resource packs, datapacks, modpacks 
 
         svgWrapper.appendChild(svg);
         chartContainer.appendChild(svgWrapper);
-        downloadsChart.appendChild(chartContainer);
 
-        // Legend
-        const legend = document.createElement('div');
-        legend.className = 'line-legend';
-        legend.style.cssText = 'margin-top:12px;display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px;';
-        legend.innerHTML = topDownloads.map((m, idx) => {
+        // Right side: legend
+        const legendContainer = document.createElement('div');
+        legendContainer.style.cssText = 'width:200px;display:flex;flex-direction:column;gap:8px;overflow-y:auto;max-height:240px;padding-right:8px;';
+        legendContainer.className = 'line-legend';
+        legendContainer.innerHTML = topDownloads.map((m, idx) => {
           const color = colors[idx % colors.length];
-          return `<div class="legend-item" style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text-secondary);"><span style="width:12px;height:12px;border-radius:50%;background:${color};display:inline-block;flex-shrink:0;"></span><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${m.title || m.name}</span></div>`;
+          return `<div class="legend-item" style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text-secondary);"><span style="width:8px;height:8px;border-radius:50%;background:${color};display:inline-block;flex-shrink:0;"></span><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${m.title || m.name}</span></div>`;
         }).join('');
-        downloadsChart.appendChild(legend);
+
+        chartWrapper.appendChild(chartContainer);
+        chartWrapper.appendChild(legendContainer);
+        downloadsChart.appendChild(chartWrapper);
       } else if (downloadsNote) {
         downloadsNote.textContent = 'No download data available yet';
       }

@@ -21,9 +21,13 @@
     <meta property="og:url" content="{{ page.url | absolute_url }}" />
     <meta
       property="og:image"
-      content="{{ site.meta.og_image | default: site.site.logo | relative_url }}"
+      content="{{ page.icon_url | default: site.meta.og_image | default: site.site.logo | absolute_url }}"
     />
-    <meta name="twitter:card" content="summary" />
+    <meta property="og:type" content="{{ page.layout | default: 'website' }}" />
+    <meta property="og:site_name" content="{{ site.site.name }}" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
     <meta
       name="twitter:title"
       content="{{ page.title | default: site.title }}"
@@ -32,6 +36,15 @@
       name="twitter:description"
       content="{{ page.description | default: site.description }}"
     />
+    <meta
+      name="twitter:image"
+      content="{{ page.icon_url | default: site.meta.og_image | default: site.site.logo | absolute_url }}"
+    />
+    <meta
+      name="twitter:creator"
+      content="{{ site.social.twitter | replace: 'https://twitter.com/', '@' }}"
+    />
+
     <meta
       name="theme-color"
       content="{{ site.branding.accent | default: site.site.color }}"
