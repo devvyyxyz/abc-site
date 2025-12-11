@@ -33,3 +33,10 @@ stat_no_data: "Aucune donnée de téléchargement disponible"
 error_loading: "Erreur de chargement"
 failed_to_load: "Échec du chargement"
 no_projects_found: "Aucun projet trouvé. Ils se synchroniseront automatiquement."
+
+# 404 Page
+error_404_title: "Page Non Trouvée"
+error_404_description: "La page que vous recherchez n'existe pas."
+error_404_message: "Désolé, nous n'avons pas pu trouver ce que vous cherchiez."
+error_404_back_home: "Retour à l'Accueil"
+error_404_browse: "Parcourir les Projets"

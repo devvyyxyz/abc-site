@@ -33,3 +33,10 @@ stat_no_data: "No download data available yet"
 error_loading: "Error loading"
 failed_to_load: "Failed to load"
 no_projects_found: "No projects found. They will sync automatically."
+
+# 404 Page
+error_404_title: "Page Not Found"
+error_404_description: "The page you're looking for doesn't exist."
+error_404_message: "Sorry, we couldn't find what you were looking for."
+error_404_back_home: "Back to Home"
+error_404_browse: "Browse Projects"
