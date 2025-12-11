@@ -107,21 +107,34 @@
       href="{{ meta_config.apple_touch_icon | default: meta_config.og_image | relative_url }}"
     />
 
-    <!-- Google Fonts -->
+    <!-- Google Fonts - Preload -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="preload"
+      as="style"
+      href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c&display=swap"
+    />
     <link
       href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c&display=swap"
       rel="stylesheet"
     />
 
-    <!-- Font Awesome Icons -->
+    <!-- Font Awesome Icons - Async load -->
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      media="print"
+      onload="this.media='all'"
     />
+    <noscript>
+      <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      />
+    </noscript>
 
-    <!-- Stylesheets -->
+    <!-- Stylesheets - Critical -->
     <link rel="stylesheet" href="{{ '/assets/css/root.css' | relative_url }}" />
     <link
       rel="stylesheet"
@@ -129,33 +142,82 @@
     />
     <link
       rel="stylesheet"
+      href="{{ '/assets/css/loading.css' | relative_url }}"
+    />
+
+    <!-- Stylesheets - Deferred (non-critical) -->
+    <link
+      rel="stylesheet"
       href="{{ '/assets/css/components.css' | relative_url }}"
+      media="print"
+      onload="this.media='all'"
     />
     <link
       rel="stylesheet"
       href="{{ '/assets/css/modpacks.css' | relative_url }}"
-    />
-    <link
-      rel="stylesheet"
-      href="{{ '/assets/css/loading.css' | relative_url }}"
+      media="print"
+      onload="this.media='all'"
     />
     <link
       rel="stylesheet"
       href="{{ '/assets/css/animations.css' | relative_url }}"
+      media="print"
+      onload="this.media='all'"
     />
     <link
       rel="stylesheet"
       href="{{ '/assets/css/theme.css' | relative_url }}"
+      media="print"
+      onload="this.media='all'"
     />
-    <link rel="stylesheet" href="{{ '/assets/css/a11y.css' | relative_url }}" />
+    <link
+      rel="stylesheet"
+      href="{{ '/assets/css/a11y.css' | relative_url }}"
+      media="print"
+      onload="this.media='all'"
+    />
     <link
       rel="stylesheet"
       href="{{ '/assets/css/visual-enhancements.css' | relative_url }}"
+      media="print"
+      onload="this.media='all'"
     />
     <link
       rel="stylesheet"
       href="{{ '/assets/css/mobile.css' | relative_url }}"
+      media="print"
+      onload="this.media='all'"
     />
+    <noscript>
+      <link
+        rel="stylesheet"
+        href="{{ '/assets/css/components.css' | relative_url }}"
+      />
+      <link
+        rel="stylesheet"
+        href="{{ '/assets/css/modpacks.css' | relative_url }}"
+      />
+      <link
+        rel="stylesheet"
+        href="{{ '/assets/css/animations.css' | relative_url }}"
+      />
+      <link
+        rel="stylesheet"
+        href="{{ '/assets/css/theme.css' | relative_url }}"
+      />
+      <link
+        rel="stylesheet"
+        href="{{ '/assets/css/a11y.css' | relative_url }}"
+      />
+      <link
+        rel="stylesheet"
+        href="{{ '/assets/css/visual-enhancements.css' | relative_url }}"
+      />
+      <link
+        rel="stylesheet"
+        href="{{ '/assets/css/mobile.css' | relative_url }}"
+      />
+    </noscript>
 
     <!-- Canonical URL -->
     <link rel="canonical" href="{{ page.url | absolute_url }}" />
