@@ -1,7 +1,7 @@
 User-agent: *
 Allow: /
 
-Sitemap: {{ site.url }}/sitemap.xml
+Sitemap: https://abc-site.devvyy.xyz/abc-site/sitemap.xml
 
 # Delay for aggressive crawlers
 User-agent: AhrefsBot

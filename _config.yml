@@ -6,6 +6,10 @@ description: Browse curated Minecraft mods, resource packs, datapacks, modpacks 
 markdown: kramdown
 # theme: minima  # Disabled due to Ruby 2.6 compatibility
 
+plugins:
+  - jekyll-sitemap
+  - jekyll-feed
+
 # Exclude from processing
 exclude:
   - .gitignore

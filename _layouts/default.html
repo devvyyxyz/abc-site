@@ -8,6 +8,10 @@
       name="description"
       content="{{ page.description | default: site.description }}"
     />
+    <meta
+      name="robots"
+      content="{{ page.robots | default: 'index, follow' }}"
+    />
 
     <!-- SEO Meta Tags -->
     {% assign meta_config = site.meta | default: site.branding.meta %} {% assign
@@ -35,6 +39,7 @@
     <meta property="og:image:alt" content="{{ embed_alt }}" />
     <meta property="og:type" content="{{ page.layout | default: 'website' }}" />
     <meta property="og:site_name" content="{{ site.site.name }}" />
+    <meta property="og:locale" content="en_US" />
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="{{ twitter_card }}" />
@@ -54,6 +59,10 @@
     <meta
       name="twitter:creator"
       content="{{ site.social.twitter | replace: 'https://twitter.com/', '@' }}"
+    />
+    <meta
+      name="twitter:site"
+      content="{{ meta_config.twitter_site | default: '@devvyyxyz' }}"
     />
 
     <meta

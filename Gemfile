@@ -4,3 +4,5 @@ gem "jekyll", "~> 3.9"
 gem "kramdown-parser-gfm", "~> 1.1"
 
 gem "jekyll-livereload", "~> 0.2.2"
+gem "jekyll-sitemap", "~> 1.4"
+gem "jekyll-feed", "~> 0.17"
