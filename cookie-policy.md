@@ -53,11 +53,11 @@ We use Google Analytics to understand how visitors use our site:
 
 We may use services that set their own cookies:
 
-| Service | Cookies | Purpose | Policy |
-|---------|---------|---------|--------|
-| Google Analytics | `_ga*`, `_gat` | Site analytics | [Privacy Policy](https://policies.google.com/privacy) |
-| Font Awesome | Session cookies | Icon delivery | [Privacy](https://fontawesome.com/privacy) |
-| Discord | If embedded | Embeds/widgets | [Privacy](https://discord.com/privacy) |
+| Service          | Cookies         | Purpose        | Policy                                                |
+| ---------------- | --------------- | -------------- | ----------------------------------------------------- |
+| Google Analytics | `_ga*`, `_gat`  | Site analytics | [Privacy Policy](https://policies.google.com/privacy) |
+| Font Awesome     | Session cookies | Icon delivery  | [Privacy](https://fontawesome.com/privacy)            |
+| Discord          | If embedded     | Embeds/widgets | [Privacy](https://discord.com/privacy)                |
 
 ## Cookie Preferences
 
@@ -101,4 +101,4 @@ We may update this policy periodically. Your continued use of the site constitut
 
 ---
 
-*This Cookie Policy is part of our overall Privacy Policy and Terms of Service.*
+_This Cookie Policy is part of our overall Privacy Policy and Terms of Service._

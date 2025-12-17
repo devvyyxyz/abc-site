@@ -20,7 +20,7 @@ We grant you a non-exclusive, non-transferable, limited license to use the Softw
 ✅ Install and use on your personal devices  
 ✅ Create content using the Software (videos, streams, guides)  
 ✅ Modify the Software for personal use  
-✅ Use in private multiplayer servers  
+✅ Use in private multiplayer servers
 
 ### Prohibited Uses
 
@@ -28,7 +28,7 @@ We grant you a non-exclusive, non-transferable, limited license to use the Softw
 ❌ Reselling modified versions  
 ❌ Claiming ownership of the Software  
 ❌ Reverse engineering for competitive purposes  
-❌ Removing attribution or license notices  
+❌ Removing attribution or license notices
 
 ## 2. Intellectual Property Rights
 
@@ -124,7 +124,7 @@ We may update this EULA at any time. Continued use of the Software constitutes a
 If you have questions about this EULA:
 
 **GitHub**: [Link from site config]  
-**Discord**: [Link from site config]  
+**Discord**: [Link from site config]
 
 ---
 

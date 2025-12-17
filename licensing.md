@@ -13,26 +13,29 @@ This page outlines the licenses used across our projects and how to properly att
 
 ## Project Licenses
 
-| Project | License | Repository | Key Terms |
-|---------|---------|------------|-----------|
-| Core Projects | MIT | GitHub | Permissive; attribution appreciated |
-| Datapacks | CC0 / MIT | GitHub | Check individual README |
-| Plugins | MIT | GitHub | Permissive; include license |
-| Documentation | CC-BY-4.0 | This Site | Attribute ABC Team |
+| Project       | License   | Repository | Key Terms                           |
+| ------------- | --------- | ---------- | ----------------------------------- |
+| Core Projects | MIT       | GitHub     | Permissive; attribution appreciated |
+| Datapacks     | CC0 / MIT | GitHub     | Check individual README             |
+| Plugins       | MIT       | GitHub     | Permissive; include license         |
+| Documentation | CC-BY-4.0 | This Site  | Attribute ABC Team                  |
 
 ## MIT License Summary
 
 **Permissions**:
+
 - ✅ Commercial use
 - ✅ Modification
 - ✅ Distribution
 - ✅ Private use
 
 **Conditions**:
+
 - ⚠️ Include license and copyright notice
 - ⚠️ Disclose changes
 
 **Limitations**:
+
 - ❌ No liability
 - ❌ No warranty
 
@@ -41,11 +44,13 @@ This page outlines the licenses used across our projects and how to properly att
 Used for documentation and educational content.
 
 **You are free to**:
+
 - Share the material
 - Adapt and remix
 - Use commercially
 
 **You must**:
+
 - Give appropriate credit
 - Provide a link to the license
 - Indicate if changes were made
@@ -92,11 +97,11 @@ Our projects use open-source libraries. See `LICENSE` and `LICENSES/` directorie
 
 ### Common Dependencies
 
-| Dependency | License | Link |
-|------------|---------|------|
-| Fabric API | Apache 2.0 | [GitHub](https://github.com/FabricMC/fabric) |
-| Forge | LGPL 2.1 | [GitHub](https://github.com/MinecraftForge/MinecraftForge) |
-| Quilt | Apache 2.0 | [GitHub](https://github.com/QuiltMC) |
+| Dependency | License    | Link                                                       |
+| ---------- | ---------- | ---------------------------------------------------------- |
+| Fabric API | Apache 2.0 | [GitHub](https://github.com/FabricMC/fabric)               |
+| Forge      | LGPL 2.1   | [GitHub](https://github.com/MinecraftForge/MinecraftForge) |
+| Quilt      | Apache 2.0 | [GitHub](https://github.com/QuiltMC)                       |
 
 ## Minecraft & Mojang
 
@@ -112,17 +117,20 @@ Our projects are designed for Minecraft and follow Mojang's Brand and Asset Guid
 **Yes, you can use our projects commercially!**
 
 **Requirements**:
+
 1. Include the MIT license file
 2. Attribute ABC Team in credits or documentation
 3. Disclose if you modified the software
 4. Provide source code access (for MIT)
 
 **Server Usage**:
+
 - Personal servers: Fully permitted
 - Public servers: Permitted with attribution
 - Paid servers: Permitted (no revenue share)
 
 **Content Creation**:
+
 - YouTube/Twitch: Fully permitted (no permission needed)
 - Monetization: Fully permitted (no revenue share)
 - Attribution appreciated but not required
