@@ -41,6 +41,19 @@
           >
         </div>
       </div>
+      <div class="nav-dropdown">
+        <a href="#" class="dropdown-toggle">
+          Legal <i class="fas fa-chevron-down"></i>
+        </a>
+        <div class="dropdown-menu">
+          <a href="{{ '/privacy/' | relative_url }}">Privacy Policy</a>
+          <a href="{{ '/terms/' | relative_url }}">Terms of Service</a>
+          <a href="{{ '/cookie-policy/' | relative_url }}">Cookie Policy</a>
+          <a href="{{ '/licensing/' | relative_url }}">Licensing</a>
+          <a href="{{ '/eula/' | relative_url }}">EULA</a>
+          <a href="{{ '/disclaimer/' | relative_url }}">Disclaimer</a>
+        </div>
+      </div>
       <a
         href="{{ site.modrinth.organization_url | default: site.social.modrinth }}"
         target="_blank"
