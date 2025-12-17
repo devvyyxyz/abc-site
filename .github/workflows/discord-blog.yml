@@ -15,7 +15,13 @@ jobs:
       - name: Detect new posts in commit
         id: detect
         run: |
-          echo "FILES=$(git diff --name-only HEAD~1 HEAD | grep '^_posts/' || true)" >> $GITHUB_OUTPUT
+          # Check if HEAD~1 exists; if not, use HEAD (first commit)
+          if git rev-parse HEAD~1 >/dev/null 2>&1; then
+            FILES=$(git diff --name-only HEAD~1 HEAD | grep '^_posts/' || true)
+          else
+            FILES=$(git show --name-only HEAD | grep '^_posts/' || true)
+          fi
+          echo "FILES=$FILES" >> $GITHUB_OUTPUT
 
       - name: Post to Discord (Message Components V2)
         if: steps.detect.outputs.FILES != ''
