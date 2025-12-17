@@ -32,25 +32,25 @@ jobs:
           # Find the newest post file from this commit
           NEW_POST="${{ steps.detect.outputs.FILES }}"
           [ -z "$NEW_POST" ] && echo "No post file found" && exit 1
-          
+
           TITLE=$(grep -m1 '^title:' "$NEW_POST" | sed 's/^title: *//' | sed 's/^"//' | sed 's/"$//')
           DESCRIPTION=$(grep -m1 '^description:' "$NEW_POST" | sed 's/^description: *//' | sed 's/^"//' | sed 's/"$//')
-          
+
           # Build site URL from _config.yml values
           SITE_URL=$(grep -E '^url:' _config.yml | awk '{print $2}')
           BASEURL=$(grep -E '^baseurl:' _config.yml | awk '{print $2}')
-          
+
           # Permalink structure: /blog/:title/
           FNAME=$(basename "$NEW_POST")
           SLUG=${FNAME#??????????-}  # strip YYYY-MM-DD-
           SLUG=${SLUG%.md}
           POST_PATH="/blog/${SLUG}/"
           URL="${SITE_URL}${BASEURL}${POST_PATH}"
-          
+
           echo "TITLE=$TITLE"
           echo "DESCRIPTION=$DESCRIPTION"
           echo "URL=$URL"
-          
+
           # Build Discord payload using jq for proper JSON encoding
           PAYLOAD=$(jq -n \
             --arg title "$TITLE" \
@@ -74,6 +74,6 @@ jobs:
                 }]
               }]
             }')
-          
+
           echo "Payload: $PAYLOAD"
           curl -X POST -H "Content-Type: application/json" -d "$PAYLOAD" "$DISCORD_WEBHOOK"
