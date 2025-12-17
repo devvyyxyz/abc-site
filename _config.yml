@@ -10,6 +10,9 @@ plugins:
   - jekyll-sitemap
   - jekyll-feed
 
+# Blog excerpts
+excerpt_separator: "<!--more-->"
+
 # Exclude from processing
 exclude:
   - .gitignore
@@ -81,6 +84,13 @@ collections:
   projects:
     output: true
     permalink: /projects/:slug/
+
+defaults:
+  - scope:
+      path: ""
+      type: posts
+    values:
+      permalink: /blog/:title/
 
 # Social links
 social:

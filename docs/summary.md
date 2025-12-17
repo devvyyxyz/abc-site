@@ -54,7 +54,7 @@ permalink: /docs/summary/
 <section class="section">
   <h2>🏷️ Tag Cloud</h2>
   <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px;">
-    {% assign all_tags = site.docs | map: "tags" | join: "," | split: "," | uniq | sort %}
+    {% assign all_tags = site.docs | map: "tags" | join: "," | default: "" | split: "," | uniq | sort %}
     {% for tag in all_tags %}
       {% if tag != "" %}
         <span style="display: inline-block; padding: 6px 12px; background: rgba(27, 217, 111, 0.1); color: var(--accent-primary); border-radius: 999px; border: 1px solid var(--accent-primary); font-size: 13px; cursor: pointer;" onclick="document.location.href='{{ '/docs/' | relative_url }}?filter={{ tag }}'">

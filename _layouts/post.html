@@ -1,0 +1,52 @@
+---
+layout: default
+---
+
+<main class="content">
+  <article class="post" style="max-width: 820px; margin: 0 auto; padding: 24px">
+    <header>
+      <h1 style="margin: 0 0 8px">{{ page.title }}</h1>
+      <p class="muted" style="margin: 0 0 16px">
+        {{ page.date | date: "%B %d, %Y" }} • {{ page.author | default:
+        site.site.name }}
+      </p>
+    </header>
+    <section class="post-body">{{ content }}</section>
+
+    {% if page.tags %}
+    <footer style="margin-top: 24px">
+      <strong>Tags:</strong>
+      {% for tag in page.tags %}
+      <span
+        style="
+          display: inline-block;
+          padding: 4px 8px;
+          border: 1px solid var(--border);
+          border-radius: 999px;
+          margin-right: 6px;
+          font-size: 12px;
+        "
+        >#{{ tag }}</span
+      >
+      {% endfor %} {% if page.categories %}
+      <div style="margin-top: 8px">
+        <strong>Categories:</strong>
+        {% for cat in page.categories %}
+        <span
+          style="
+            display: inline-block;
+            padding: 4px 8px;
+            border: 1px solid var(--border);
+            border-radius: 999px;
+            margin-right: 6px;
+            font-size: 12px;
+          "
+          >{{ cat }}</span
+        >
+        {% endfor %}
+      </div>
+      {% endif %}
+    </footer>
+    {% endif %}
+  </article>
+</main>

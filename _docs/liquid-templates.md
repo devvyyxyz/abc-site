@@ -58,6 +58,8 @@ Control flow and iteration:
 
 ### Page Variables
 
+{% raw %}
+
 ```liquid
 {{ page.title }}              # Current page title
 {{ page.url }}                # Page URL
@@ -66,6 +68,8 @@ Control flow and iteration:
 {{ page.excerpt }}            # Auto excerpt
 {{ page.custom_field }}       # Custom frontmatter
 ```
+
+{% endraw %}
 
 ### Custom Data
 
@@ -405,7 +409,7 @@ title: My Page
    {% endfor %}
 
    <!-- Faster -->
-   {% assign all_tags = site.docs | map: "tags" | join: "," | split: "," | uniq %}
+   {% assign all_tags = site.docs | map: "tags" | join: "," | default: "" | split: "," | uniq %}
    ```
 
 3. **Cache expensive operations:**

@@ -172,9 +172,9 @@
             </div>
             <div class="feedback-badges" aria-label="Applies to versions">
               {% assign applies = page.applies_to | default: page.game_versions
-              | default: '1.21.x' %} {% assign applies_array = applies | split:
-              ',' %} {% for version in applies_array %} {% assign trimmed =
-              version | strip %} {% if trimmed != '' %}
+              | default: '1.21.x' %} {% assign applies_array = applies |
+              default: '' | split: ',' %} {% for version in applies_array %} {%
+              assign trimmed = version | strip %} {% if trimmed != '' %}
               <span class="version-badge" aria-label="Minecraft {{ trimmed }}"
                 >{{ trimmed }}</span
               >

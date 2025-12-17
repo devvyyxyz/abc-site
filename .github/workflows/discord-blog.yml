@@ -1,0 +1,70 @@
+name: Notify Discord on New Blog Post
+
+on:
+  push:
+    paths:
+      - "_posts/**"
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Detect new posts in commit
+        id: detect
+        run: |
+          echo "FILES=$(git diff --name-only HEAD~1 HEAD | grep '^_posts/' || true)" >> $GITHUB_OUTPUT
+
+      - name: Post to Discord (Message Components V2)
+        if: steps.detect.outputs.FILES != ''
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        run: |
+          # Find the newest post file from this commit
+          NEW_POST=$(echo "${{ steps.detect.outputs.FILES }}" | head -n 1)
+          TITLE=$(grep -m1 '^title:' "$NEW_POST" | sed 's/title: //')
+          DESCRIPTION=$(grep -m1 '^description:' "$NEW_POST" | sed 's/description: //')
+          # Build site URL from _config.yml values
+          SITE_URL=$(grep -E '^url:' _config.yml | awk '{print $2}')
+          BASEURL=$(grep -E '^baseurl:' _config.yml | awk '{print $2}')
+          # Permalink structure: /blog/:title/
+          FNAME=$(basename "$NEW_POST")
+          SLUG=${FNAME#??????????-}  # strip YYYY-MM-DD-
+          SLUG=${SLUG%.md}
+          POST_PATH="/blog/${SLUG}/"
+          URL="${SITE_URL}${BASEURL}${POST_PATH}"
+
+          # Build Discord payload using Components V2 (buttons)
+          read -r -d '' PAYLOAD << 'JSON'
+          {
+            "content": "📢 New blog post published!",
+            "embeds": [
+              {
+                "title": "${TITLE}",
+                "description": "${DESCRIPTION}",
+                "url": "${URL}",
+                "color": 5814783
+              }
+            ],
+            "components": [
+              {
+                "type": 1,
+                "components": [
+                  {
+                    "type": 2,
+                    "style": 5,
+                    "label": "Read on Site",
+                    "url": "${URL}"
+                  }
+                ]
+              }
+            ]
+          }
+          JSON
+
+          # Substitute vars in PAYLOAD
+          PAYLOAD=$(echo "$PAYLOAD" | sed "s|\${TITLE}|$TITLE|g" | sed "s|\${DESCRIPTION}|$DESCRIPTION|g" | sed "s|\${URL}|$URL|g")
+
+          curl -s -X POST -H "Content-Type: application/json" -d "$PAYLOAD" "$DISCORD_WEBHOOK"
